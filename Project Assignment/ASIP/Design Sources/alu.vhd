@@ -38,7 +38,10 @@ valout <= valin_lo when alu_ctr_in="0000000" else -- LD Ri,<imm>
           (valin_hi OR valin_lo) when alu_ctr_in="0001000" else -- ORR Ri,Rj,Rk
           (valin_hi OR valin_lo) when alu_ctr_in="0001001" else -- ORI Ri,<imm>
           (valin_hi AND valin_lo) when alu_ctr_in="0001010" else -- ANR Ri,Rj,Rk
-          (valin_hi AND valin_lo); -- when alu_ctr_in="0001011" (ANI Ri,<imm>) or any other
+          (valin_hi AND valin_lo) when alu_ctr_in="0001011" else -- (ANI Ri,<imm>)
+          valin_hi when alu_ctr_in="0010001" else -- SCD Ri
+          valin_hi when alu_ctr_in="0010011" else -- SSEG Ri
+          (valin_hi AND valin_lo); -- When any other
 
 alu_zero <= '1' when valin_hi="0000000" else '0'; -- LD Ri,<imm>
 
