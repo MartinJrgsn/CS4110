@@ -14,8 +14,8 @@
 -- 
 ----------------------------------------------------------------------------------
 
-library ieee;
-use ieee.std_logic_1164.all;
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
 
 entity control is
    generic(
@@ -97,18 +97,17 @@ begin
       st_next <= st_reg;  -- default back to same state
       -- Default output logic
       btn_mux_ctr <= '0';
-      clear <= '0';
       write_limit <= '0';
       pc_mux_ctr <= '0';
       dl_mux_ctr <= '0';
 	  dreg_mux_ctr <= '0';
-	  dreg_write <= '0';
+	  dr_wr_ctr <= '0';
       cnt_mux_ctr <= '0';
       dc_load <= '0';
       alu_mux_ctr <= '0';
       alu_ctr <= opcode;
       alu_dmem_mux_ctr <= '0';
-      dmem_write <= '0';
+      dm_wr_ctr <= '0';
       sseg_wr <= '0';
       m_dir_wr <= '0';
 
@@ -117,54 +116,54 @@ begin
          when s0 =>
             if opcode=LD_Ri_imm then -- LD Ri,<imm> (load Ri with an immediate value)
                 pc_mux_ctr <= '1';
-	            dreg_write <= '1';
+	            dr_wr_ctr <= '1';
                 alu_mux_ctr <= '1';
 	            alu_dmem_mux_ctr <= '1';
 
 --	         elsif opcode=LD_Ri_Rj then -- LD Ri,Rj (copy the value of Rj into Ri)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=LD_Ri_X_Rj then -- LD Ri,X(Rj) (load Ri from data memory)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --                alu_mux_ctr <= '1';
 --	         elsif opcode=ST_Ri_X_Rj then -- ST Ri,X(Rj) (store Ri into data memory)
 --                pc_mux_ctr <= '1';
 --                alu_mux_ctr <= '1';
---	            dmem_write <= '1';
+--	            dm_wr_ctr <= '1';
 --	         elsif opcode=DEC_Ri then -- DEC Ri (decrement Ri)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=INC_Ri then -- INC Ri (increment Ri)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=ADD_Ri_Rj_Rk then -- ADD Ri,Rj,Rk (Ri = Rj + Rk))
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=SUB_Ri_Rj_Rk then -- SUB Ri,Rj,Rk (Ri = Rj - Rk))
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=ORR_Ri_Rj_Rk then -- ORR Ri,Rj,Rk (Ri = Rj OR Rk)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 -- 	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=ORI_Ri_Rj_imm then -- ORI Ri,Rj,<imm> (Ri = Rj OR <imm>)
 --                pc_mux_ctr <= '1';
---	            dreg_write <= '1';
+--	            dr_wr_ctr <= '1';
 --                alu_mux_ctr <= '1';
 --	            alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=ANR_Ri_Rj_Rk then -- ANR Ri,Rj,Rk (Ri = Rj AND Rk)
 --                -- pc_mux_ctr <= '1';
---	            -- dreg_write <= '1';
+--	            -- dr_wr_ctr <= '1';
 --	            -- alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=ANI_Ri_Rj_imm then -- ANI Ri,Rj,<imm> (Ri = Rj AND <imm>)
 --                -- pc_mux_ctr <= '1';
---	            -- dreg_write <= '1';
+--	            -- dr_wr_ctr <= '1';
 --                -- alu_mux_ctr <= '1';
 --	            -- alu_dmem_mux_ctr <= '1';
 --	         elsif opcode=JRZ_Ri_imm then -- JRZ Ri,<imm> (jump if Ri is zero)
@@ -177,7 +176,7 @@ begin
                 -- no signals to activate in this case
 --             elsif opcode=LD_Ri_IN then -- LD Ri,IN (load Ri from digital inputs)
 --                -- pc_mux_ctr <= '1';
---	            -- dreg_write <= '1';
+--	            -- dr_wr_ctr <= '1';
 --	            -- in_mux_ctr <= '1';
 --	         elsif opcode=ST_Ri_OUT then -- ST Ri,OUT (store Ri into digital outputs)
 --                -- pc_mux_ctr <= '1';
@@ -190,20 +189,20 @@ begin
                 pc_mux_ctr <='1';
                 dl_mux_ctr <='1';
                 dreg_mux_ctr <='1';
-                dreg_write <='1';
+                dr_wr_ctr <='1';
 	         elsif opcode=SSEG_Ri then -- ST Ri,OUT (store Ri into digital outputs)
                 pc_mux_ctr <='1';
                 sseg_wr <='1';
 	         elsif opcode=LDL_Ri then -- ST Ri,OUT (store Ri into digital outputs)
                 pc_mux_ctr <='1';
                 dreg_mux_ctr <='1';
-                dreg_write <='1';
+                dr_wr_ctr <='1';
 	         elsif opcode=SCNT_Ri then -- ST Ri,OUT (store Ri into digital outputs)
                 pc_mux_ctr <= '1';
                 dc_load <='1';
 	         elsif opcode=LDC_Ri then -- ST Ri,OUT (store Ri into digital outputs)
                 pc_mux_ctr <='1';
-                dreg_write <='1';
+                dr_wr_ctr <='1';
                 cnt_mux_ctr <='1';
 	         end if;
       end case;
