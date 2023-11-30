@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
---
+-- 
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
 -- Design Name: ASIP
@@ -12,10 +12,10 @@
 -- motor drivers, one Basys 3 board and one HC-SR04 Ultrasonic Distance Sensor.
 -- The instructions for driving the car can be changed through RISC-V assembly
 -- in the imem.vhd file.
---
+-- 
 -- Revision: 0.02 - Modified ports, signals, components, and muxes
 -- Revision 0.01 - Listing 6.3 modified
---
+-- 
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -33,16 +33,19 @@ entity ASIP is
       DMDATA_WIDTH: integer:=8;
       OPCODE_WIDTH: integer:=7;
       SSEG_AN_WIDTH: integer:=4;
-      SSEG_WIDTH: integer:=8
+      SSEG_WIDTH: integer:=7
    );
    port(clk, rst: in std_logic;
-   echo: in std_logic;
-   trig: out std_logic;
-   sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0);
-   btn: in std_logic;
-   sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0);
-   an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0);
-   m_dir_out: out std_logic_vector(DRDATA_WIDTH-1 downto 0));
+   echo: in std_logic; --
+   trig: out std_logic; --
+   sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); -- 
+   btnC: in std_logic; --
+   out1, out2, out3: out std_logic;     -- ENB_1, IN3_1, IN4_1
+   out4, out5, out6: out std_logic;     -- ENA_2, IN1_1, IN2_1
+   out7, out8, out9: out std_logic;     -- ENA_1, IN1_1, IN2_1
+   out10, out11, out12: out std_logic;  -- ENB_2, IN3_2, IN4_2
+   sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0); --
+   an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0)); --
 
 end ASIP;
 
@@ -80,30 +83,32 @@ architecture arch of ASIP is
     signal alu_dmem_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal distance: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal sseg_dd_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal m_dir_reg_out: std_logic_vector(DRDATA_WIDTH-1 downto 0); --
+
 
 begin
 
     -- instantiate program counter
     pc: entity work.pc(arch)
-    port map(clk=>clk,
-             rst=>rst,
+    port map(clk=>clk, 
+             rst=>rst, 
              reg_d=>pc_mux_out, -- data in
              reg_q=>pc_out);    -- data out
 
     -- instantiate instruction memory
     imem: entity work.imem(arch)
-    port map(im_addr=>pc_out(4 downto 0),
+    port map(im_addr=>pc_out(4 downto 0), 
              im_dout=>opcd_out);
 
 	-- instantiate data registers
     dreg: entity work.dreg(arch)
-    port map(clk=>clk,
-             dr_wr_ctr=>dr_wr_ctr,
+    port map(clk=>clk, 
+             dr_wr_ctr=>dr_wr_ctr, 
              dwr_addr=>opcd_out(9 downto 7),
              dr1_addr=>opcd_out(12 downto 10),
              dr2_addr=>opcd_out(15 downto 13),
-		     dwr_din=>dreg_mux_out,
-		     dr1_dout=>dr1_dout,
+		     dwr_din=>dreg_mux_out, 
+		     dr1_dout=>dr1_dout, 
 		     dr2_dout=>dr2_dout);
 
 	-- instantiate ALU
@@ -116,7 +121,7 @@ begin
 
 	-- instantiate data memory
     dmem: entity work.dmem(arch)
-    port map(clk=>clk,
+    port map(clk=>clk, 
              dm_wr_ctr=>dm_wr_ctr,
 		     dm_addr=>alu_dout,
 		     dm_din=>dr2_dout,
@@ -126,19 +131,17 @@ begin
     control: entity work.control(arch)
     port map(clk=>clk,
              rst=>rst,
-             btn_wr=>btn,
-             --above_limit=>above_limit,
-             --count_done=>count_done,
+             btn_wr=>btnC,
              alu_zero=>alu_zero,
              opcode=>opcd_out(OPCODE_WIDTH-1 downto 0),
-             btn_mux_ctr=>btn_mux_ctr,
+             btn_mux_ctr=>btn_wr,
 		     dl_mux_ctr=>dl_mux_ctr,
 		     pc_mux_ctr=>pc_mux_ctr,
 		     dreg_mux_ctr=>dreg_mux_ctr,
 		     cnt_mux_ctr=>cnt_mux_ctr,
 		     alu_mux_ctr=>alu_mux_ctr,
 		     alu_dmem_mux_ctr=>alu_dmem_mux_ctr,
-		     write_limit=>write_limit,
+		     write_limit=>btn_wr,
 		     dr_wr_ctr=>dr_wr_ctr,
 		     dc_load=>dc_load,
 		     dm_wr_ctr=>dm_wr_ctr,
@@ -165,8 +168,8 @@ begin
              rst=>rst,
              reg_ld=>m_dir_wr,
              reg_d=>alu_dout,
-             reg_q=>m_dir_out);
-
+             reg_q=>m_dir_reg_out);
+             
     pwm_module: entity work.pwm_module(arch)
     port map(clk=>clk,
              rst=>rst,
@@ -175,11 +178,18 @@ begin
              threshold=>th_mux_out,
              above_limit=>above_limit,
              distance=>distance,
-             write_limit=>write_limit);
+             write_limit=>btn_wr);
+             
+    timer_module: entity work.timer_module(arch)
+    port map(clk=>clk,
+             rst=>rst,
+             dc_load=>dc_load,
+             dr1_din=>dr1_dout,
+             count_done=>count_done);
 
     -- Glue logic at top level: th_mux
-    th_mux_out <= sw when btn_mux_ctr='1' else dr2_dout;
-
+    th_mux_out <= sw when btn_mux_ctr='1' else dr2_dout;    
+    
     -- Glue logic at top level: dl_mux
     dl_mux_out <= distance when dl_mux_ctr='1' else above_limit;
 
@@ -199,5 +209,23 @@ begin
 
 	-- Glue logic at top level: alu_dmem_mux
 	alu_dmem_mux_out <= alu_dout when alu_dmem_mux_ctr='1' else dm_dout;
-
+	
+	-- Output logic for Motor Directions:
+	-----------------------------------------------|
+	out1   <=      m_dir_reg_out(0);   -- ENB_1    | Left
+	out2   <=      m_dir_reg_out(1);   -- IN3_1    | Front
+	out3   <= not( m_dir_reg_out(1));  -- IN4_1    | Motor
+	-----------------------------------------------|
+	out4   <=      m_dir_reg_out(2);   -- ENA_2    | Right
+	out5   <=      m_dir_reg_out(3);   -- IN1_2    | Front
+	out6   <= not( m_dir_reg_out(3));  -- IN2_2    | Motor
+	-----------------------------------------------|
+	out7   <=      m_dir_reg_out(4);   -- ENA_1    | Left
+	out8   <=      m_dir_reg_out(5);   -- IN1_1    | Rear
+	out9   <= not( m_dir_reg_out(5));  -- IN2_1    | Motor
+	-----------------------------------------------|
+	out10  <=      m_dir_reg_out(6);   -- ENB_2    | Right
+	out11  <=      m_dir_reg_out(7);   -- IN3_2    | Rear
+	out12  <= not( m_dir_reg_out(7));  -- IN4_2    | Motor
+	-----------------------------------------------|
 end arch;
