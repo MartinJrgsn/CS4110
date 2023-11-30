@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin J�rgensen
+-- Engineer: Martin Jørgensen
 -- 
 -- Create Date: 27.11.2023 10:00:43
 -- Design Name: 
@@ -23,20 +23,21 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity UltrasonicSensor is
+entity pwm_module is
+    generic(DATA_WIDTH: integer:=8);
     Port (
         clk : in STD_LOGIC; -- 100MHz clock
         rst : in STD_LOGIC; -- Reset signal
         trigger : out STD_LOGIC; -- TRIG pin for HC-SR04
         echo : in STD_LOGIC; -- ECHO pin from HC-SR04
-        threshold : in STD_LOGIC_VECTOR(7 downto 0); -- Threshold for checking if distance is above_limit (0-255)
-        above_limit : out STD_LOGIC; -- Distance above limit
-        distance : out STD_LOGIC_VECTOR(7 downto 0); -- Distance measured
+        threshold : in STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0); -- Threshold for checking if distance is above_limit (0-255)
+        above_limit : out STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0); -- Distance above limit
+        distance : buffer STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0); -- Distance measured
         write_limit : in STD_LOGIC -- Set the threshold limit when high
     );
-end UltrasonicSensor;
+end pwm_module;
 
-architecture Behavioral of UltrasonicSensor is
+architecture arch of pwm_module is
     signal counter, echo_start, echo_end : INTEGER range 0 to 5000000 := 0;
     signal trigger_signal : STD_LOGIC := '0';
     signal measuring : BOOLEAN := FALSE;
@@ -91,15 +92,13 @@ begin
 
             -- Check if distance is above the threshold
             if unsigned(distance) > unsigned(current_threshold) then
-                above_limit <= '1';
+                above_limit <= (others => '1');
             else
-                above_limit <= '0';
+                above_limit <= (others => '0');
             end if;
         end if;
     end process;
 
     trigger <= trigger_signal;
 
-end Behavioral;
-
-
+end arch;
