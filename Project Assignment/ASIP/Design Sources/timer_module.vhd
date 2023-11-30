@@ -31,7 +31,7 @@ entity timer_module is
         clk, rst: in std_logic;
         dc_load: in std_logic;
         dr1_din: in std_logic_vector(N-1 downto 0);  -- 8-bit input vector
-        count_done: buffer std_logic  -- Signaling count done
+        count_done: out std_logic_vector(N-1 downto 0)
     );
 end timer_module;
 
@@ -46,10 +46,11 @@ architecture arch of timer_module is
     signal seconds: unsigned(2 downto 0);        -- 3-bit seconds
     signal dc_en: std_logic;                     -- Internal enable signal
     signal just_loaded: std_logic := '0';        -- Signal to track the load event
+    signal count_done_internal: std_logic := '0';
 
 begin
     -- Counter enable logic
-    dc_en <= not(count_done) or just_loaded;
+    dc_en <= not(count_done_internal) or just_loaded;
 
     -- register
     process(clk, rst)
@@ -64,7 +65,7 @@ begin
                 seconds <= unsigned(dr1_din(2 downto 0));
 
                 -- Directly update r_reg with the calculated timer value
-                r_reg <= (percentage * unsigned(to_unsigned(to_integer(seconds), r_reg'length)) * clock_rate) / max_percentage;
+                r_reg <= unsigned(to_unsigned(to_integer(percentage * unsigned(to_unsigned(to_integer(seconds), percentage'length)) * clock_rate), r_reg'length) / max_percentage);
                 just_loaded <= '1';  -- Set just_loaded when dr1_din is loaded
             else
                 if dc_en = '1' and r_reg /= 0 then
@@ -79,6 +80,7 @@ begin
     end process;
 
     -- count completion signal
-    count_done <= '1' when r_reg = 0 else '0';
+    count_done_internal <= '1' when r_reg = 0 else '0';
+    count_done <= (others => '1') when r_reg = 0 else (others => '0');
 
 end arch;
