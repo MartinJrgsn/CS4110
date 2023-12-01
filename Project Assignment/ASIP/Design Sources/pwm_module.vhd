@@ -24,7 +24,10 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity pwm_module is
-    generic(DATA_WIDTH: integer:=8);
+    generic(
+        DATA_WIDTH: integer:=8;
+        PWM_PERIOD : integer := 3800000 -- 3.8M Cycles = 38 ms at 100MHz
+    );
     Port (
         clk : in STD_LOGIC; -- 100MHz clock
         rst : in STD_LOGIC; -- Reset signal
@@ -38,7 +41,7 @@ entity pwm_module is
 end pwm_module;
 
 architecture arch of pwm_module is
-    signal counter, echo_start, echo_end : INTEGER range 0 to 5000000 := 0;
+    signal counter, echo_start, echo_end : INTEGER range 0 to PWM_PERIOD := 0;
     signal trigger_signal : STD_LOGIC := '0';
     signal measuring : BOOLEAN := FALSE;
     signal current_threshold : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
@@ -59,7 +62,7 @@ begin
                 current_threshold <= threshold;
             end if;
 
-            if counter < 5000000 then
+            if counter < PWM_PERIOD then
                 counter <= counter + 1;
             else
                 counter <= 0;
@@ -78,9 +81,9 @@ begin
                 measuring <= TRUE;
             elsif echo = '0' and measuring then
                 echo_end <= counter;
+                -- Calculate distance for speed of sound in air ~ 343 m/s)
+                measured_distance <= (counter - echo_start) / 5831;
                 measuring <= FALSE;
-                -- Calculate distance (simplified, assuming sound speed ~ 343 m/s)
-                measured_distance <= (echo_end - echo_start) / 58;
 
                 -- Validate the measured distance
                 if measured_distance < 2 or measured_distance > 255 then
