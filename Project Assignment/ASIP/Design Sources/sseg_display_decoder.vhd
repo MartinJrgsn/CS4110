@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin Jørgensen
+-- Engineer: Martin JÃ¸rgensen
 -- 
 -- Create Date: 28.11.2023 11:57:57
 -- Design Name: 
@@ -54,24 +54,56 @@ architecture arch of sseg_display_decoder is
             when others => return "0111111"; -- Dash
         end case;
     end bin_to_7seg;
+    -- Signal declarations for counters
+    signal refresh_rate_counter : integer range 0 to 1000 := 0;
+    signal display_counter : integer range 0 to 2 := 0;
+
+    -- Signal declarations for values
+    signal digit0, digit1, digit2 : STD_LOGIC_VECTOR (3 downto 0); -- To hold individual digits
+    signal decimal_value : integer range 0 to 255; -- To hold decimal equivalent of bin_value 
 
 begin
 
     process(clk)
     begin
         if rising_edge(clk) then
-            if din = "00000000" then
-                -- Display dashes on all four displays
-                sseg <= "0111111"; -- Dash
-                an <= "1110";    -- Activating only the first display for simplicity
+            -- Convert 8-bit value to decimal
+            decimal_value <= conv_integer(din);
+
+            -- Extract individual digits
+            digit0 <= conv_std_logic_vector(decimal_value mod 10, 4);
+            digit1 <= conv_std_logic_vector((decimal_value / 10) mod 10, 4);
+            digit2 <= conv_std_logic_vector((decimal_value / 100) mod 10, 4);
+
+            -- Refresh rate control
+            if refresh_rate_counter < (1000 - 1) then
+                refresh_rate_counter <= refresh_rate_counter + 1;
             else
-                -- Display the corresponding value
-                -- You need to split 'din' into four 2-bit groups and convert each to 7-segment code
-                -- For simplicity, let's just display the least significant digit
-                sseg <= bin_to_7seg(din(3 downto 0));
-                an <= "1110"; -- Activate the first display
+                refresh_rate_counter <= 0;
+
+                if din = "00000000" then
+                    -- Display dashes on all four displays
+                    sseg <= "0111111"; -- Dash
+                    an <= "0000";    -- Activating all displays with dashes
+                -- Cycle through the digits
+                elsif display_counter = 0 then
+                    sseg <= bin_to_7seg(digit0);
+                    an <= "1110"; -- Activate first digit
+                elsif display_counter = 1 then
+                    sseg <= bin_to_7seg(digit1);
+                    an <= "1101"; -- Activate second digit
+                else
+                    sseg <= bin_to_7seg(digit2);
+                    an <= "1011"; -- Activate third digit
+                end if;
+
+                -- Increment the display counter
+                if display_counter < 2 then
+                    display_counter <= display_counter + 1;
+                else
+                    display_counter <= 0;
+                end if;
             end if;
         end if;
     end process;
-
 end arch;
