@@ -132,16 +132,17 @@ begin
     port map(clk=>clk,
              rst=>rst,
              btn_wr=>btnC,
+             --above_limit=>above_limit,
              alu_zero=>alu_zero,
              opcode=>opcd_out(OPCODE_WIDTH-1 downto 0),
-             btn_mux_ctr=>btn_wr,
+             btn_mux_ctr=>btn_mux_ctr,
 		     dl_mux_ctr=>dl_mux_ctr,
 		     pc_mux_ctr=>pc_mux_ctr,
 		     dreg_mux_ctr=>dreg_mux_ctr,
 		     cnt_mux_ctr=>cnt_mux_ctr,
 		     alu_mux_ctr=>alu_mux_ctr,
 		     alu_dmem_mux_ctr=>alu_dmem_mux_ctr,
-		     write_limit=>btn_wr,
+		     write_limit=>write_limit,
 		     dr_wr_ctr=>dr_wr_ctr,
 		     dc_load=>dc_load,
 		     dm_wr_ctr=>dm_wr_ctr,
@@ -178,7 +179,7 @@ begin
              threshold=>th_mux_out,
              above_limit=>above_limit,
              distance=>distance,
-             write_limit=>btn_wr);
+             write_limit=>write_limit);
              
     timer_module: entity work.timer_module(arch)
     port map(clk=>clk,
