@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin J?rgensen
+-- Engineer: Martin Jørgensen
 -- 
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
@@ -9,7 +9,8 @@
 -- Target Devices: Basys 3
 -- Description: Instruction and execution control
 -- 
--- Revision: 0.02 - Modified OPCODES and output logic
+-- Revision: 0.03 - Add OPCODE for setting distance threshold
+   Revision 0.02 - Modified OPCODES and output logic
 -- Revision 0.01 - File Created
 -- 
 ----------------------------------------------------------------------------------
@@ -76,6 +77,7 @@ architecture arch of control is
    constant LDL_Ri:        std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0010100";
    constant SCNT_Ri:       std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0010101";
    constant LDC_Ri:        std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0010110";
+   constant STH_Ri:        std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0010111";
 
    type state_type is (s0);
    signal st_reg, st_next: state_type;
@@ -95,9 +97,10 @@ begin
    process(opcode, alu_zero)
    begin
       st_next <= st_reg;  -- default back to same state
+
       -- Default output logic
-      btn_mux_ctr <= '0';
-      write_limit <= '0';
+      btn_mux_ctr <= btn_wr;
+      write_limit <= btn_wr;
       pc_mux_ctr <= '0';
       dl_mux_ctr <= '0';
 	  dreg_mux_ctr <= '0';
@@ -182,7 +185,7 @@ begin
 --                -- pc_mux_ctr <= '1';
 --	            -- out_reg_write <= '1';
 
-	         elsif opcode=SCD_Ri then -- ST Ri,OUT (store Ri into digital outputs)
+	         elsif opcode=SCD_Ri then -- SCD Ri (store Ri into motor control register)
                 pc_mux_ctr <='1';
                 m_dir_wr <='1';
 	         elsif opcode=LDD_Ri then -- ST Ri,OUT (store Ri into digital outputs)
@@ -204,6 +207,9 @@ begin
                 pc_mux_ctr <='1';
                 dr_wr_ctr <='1';
                 cnt_mux_ctr <='1';
+             elsif opcode=STH_Ri then -- STH Ri (Set Ri as distance threshold for pwm_module)
+                pc_mux_ctr <='1';
+                write_limit <= '1';
 	         end if;
       end case;
 
