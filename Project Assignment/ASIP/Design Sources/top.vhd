@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin JÃ¸rgensen
+-- Engineer: Martin Jørgensen
 -- 
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
@@ -40,10 +40,11 @@ entity ASIP is
    trig: out std_logic; --
    sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); -- 
    btnC: in std_logic; --
-   out1, out2, out3: out std_logic;     -- ENB_1, IN3_1, IN4_1
-   out4, out5, out6: out std_logic;     -- ENA_2, IN1_1, IN2_1
-   out7, out8, out9: out std_logic;     -- ENA_1, IN1_1, IN2_1
-   out10, out11, out12: out std_logic;  -- ENB_2, IN3_2, IN4_2
+   ENB_1, IN3_1, IN4_1: out std_logic;     -- ENB_1, IN3_1, IN4_1
+   ENA_2, IN1_2, IN2_2: out std_logic;     -- ENA_2, IN1_1, IN2_1
+   ENA_1, IN1_1, IN2_1: out std_logic;     -- ENA_1, IN1_1, IN2_1
+   ENB_2, IN3_2, IN4_2: out std_logic;  -- ENB_2, IN3_2, IN4_2
+   led: out std_logic_vector(11 downto 0);
    sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0); --
    an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0)); --
 
@@ -63,7 +64,6 @@ architecture arch of ASIP is
     signal alu_mux_ctr: std_logic;
     signal dc_load: std_logic;
     signal count_done: std_logic_vector(DRDATA_WIDTH-1 downto 0);
-    signal cnt_done: std_logic;
     signal alu_ctr: std_logic_vector(OPCODE_WIDTH-1 downto 0);
     signal alu_zero: std_logic;
     signal alu_dmem_mux_ctr: std_logic;
@@ -213,20 +213,38 @@ begin
 	
 	-- Output logic for Motor Directions:
 	-----------------------------------------------|
-	out1   <=      m_dir_reg_out(0);   -- ENB_1    | Left
-	out2   <=      m_dir_reg_out(1);   -- IN3_1    | Front
-	out3   <= not( m_dir_reg_out(1));  -- IN4_1    | Motor
+	ENB_1   <=      m_dir_reg_out(7);   -- ENB_1    | Left  F1  B1 --out1
+	IN3_1   <=      m_dir_reg_out(6);   -- IN3_1    | Front F1  B0 --out2
+	IN4_1   <= not( m_dir_reg_out(6));  -- IN4_1    | Motor F0  B1 --out3
 	-----------------------------------------------|
-	out4   <=      m_dir_reg_out(2);   -- ENA_2    | Right
-	out5   <=      m_dir_reg_out(3);   -- IN1_2    | Front
-	out6   <= not( m_dir_reg_out(3));  -- IN2_2    | Motor
+	ENA_2   <=      m_dir_reg_out(5);   -- ENA_2    | Right F1  B1 --out4
+	IN1_2   <=      m_dir_reg_out(4);   -- IN1_2    | Front F1  B0 --out5
+	IN2_2   <= not( m_dir_reg_out(4));  -- IN2_2    | Motor F0  B1 --out6
 	-----------------------------------------------|
-	out7   <=      m_dir_reg_out(4);   -- ENA_1    | Left
-	out8   <=      m_dir_reg_out(5);   -- IN1_1    | Rear
-	out9   <= not( m_dir_reg_out(5));  -- IN2_1    | Motor
+	ENA_1   <=      m_dir_reg_out(3);   -- ENA_1    | Left  F1  B1 --out7
+	IN1_1   <=      m_dir_reg_out(2);   -- IN1_1    | Rear  F1  B0 --out8
+	IN2_1   <= not( m_dir_reg_out(2));  -- IN2_1    | Motor F0  B1 --out9
 	-----------------------------------------------|
-	out10  <=      m_dir_reg_out(6);   -- ENB_2    | Right
-	out11  <=      m_dir_reg_out(7);   -- IN3_2    | Rear
-	out12  <= not( m_dir_reg_out(7));  -- IN4_2    | Motor
+	ENB_2  <=      m_dir_reg_out(1);   -- ENB_2    | Right F1  B1  --out10
+	IN3_2  <=      m_dir_reg_out(0);   -- IN3_2    | Rear  F1  B0  --out11
+	IN4_2  <= not( m_dir_reg_out(0));  -- IN4_2    | Motor F0  B1  --out12
+	-----------------------------------------------|
+	-- Output logic for Motor Directions:
+	-----------------------------------------------|
+	led(11)   <=      m_dir_reg_out(7);   -- ENB_1    | Left  F1  B1
+	led(10)   <=      m_dir_reg_out(6);   -- IN3_1    | Front F1  B0
+	led(9)   <= not( m_dir_reg_out(6));  -- IN4_1    | Motor F0  B1
+	-----------------------------------------------|
+	led(8)   <=      m_dir_reg_out(5);   -- ENA_2    | Right F1  B1
+	led(7)   <=      m_dir_reg_out(4);   -- IN1_2    | Front F1  B0
+	led(6)   <= not( m_dir_reg_out(4));  -- IN2_2    | Motor F0  B1
+	-----------------------------------------------|
+	led(5)   <=      m_dir_reg_out(3);   -- ENA_1    | Left  F1  B1
+	led(4)   <=      m_dir_reg_out(2);   -- IN1_1    | Rear  F1  B0
+	led(3)   <= not( m_dir_reg_out(2));  -- IN2_1    | Motor F0  B1
+	-----------------------------------------------|
+	led(2)  <=      m_dir_reg_out(1);   -- ENB_2    | Right F1  B1
+	led(1)  <=      m_dir_reg_out(0);   -- IN3_2    | Rear  F1  B0
+	led(0)  <= not( m_dir_reg_out(0));  -- IN4_2    | Motor F0  B1
 	-----------------------------------------------|
 end arch;
