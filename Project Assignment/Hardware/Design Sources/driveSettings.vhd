@@ -15,7 +15,8 @@ entity driveSettings is
            out9 : out STD_LOGIC;
            out10 : out STD_LOGIC;
            out11 : out STD_LOGIC;
-           out12 : out STD_LOGIC);
+           out12 : out STD_LOGIC;
+           led : out STD_LOGIC_VECTOR(11 downto 0));
 end driveSettings;
 
 architecture arch of driveSettings is
@@ -37,6 +38,7 @@ begin
                 out10 <= '1';
                 out11 <= '1';
                 out12 <= '0';
+                led <= "110110110110";
 
             when "010" =>
                 out1 <= '1';
@@ -51,6 +53,7 @@ begin
                 out10 <= '1';
                 out11 <= '0';
                 out12 <= '1';
+                led <= "101101101101";
             when "011" =>
                 out1 <= '1';
                 out2 <= '0';
@@ -64,6 +67,7 @@ begin
                 out10 <= '1';
                 out11 <= '1';
                 out12 <= '0';
+                led <= "101110101110";
             when others =>
                 out1 <= '0';
                 out2 <= '0';
@@ -76,7 +80,8 @@ begin
                 out9 <= '0';
                 out10 <= '0';
                 out11 <= '0';
-                out12 <= '0'; 
+                out12 <= '0';
+                led <= (others => '0');
                 
         end case;
     end process;
