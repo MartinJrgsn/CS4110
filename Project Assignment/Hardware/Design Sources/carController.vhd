@@ -21,7 +21,8 @@ entity carController is
            out9 : out STD_LOGIC;
            out10 : out STD_LOGIC;
            out11 : out STD_LOGIC;
-           out12 : out STD_LOGIC);
+           out12 : out STD_LOGIC;
+           led : out STD_LOGIC_VECTOR(11 downto 0));
 end carController;
 
 architecture arch of carController is
@@ -66,7 +67,7 @@ begin
         port map (clk=>clk, state=>current_state, out1=>out1, 
         out2=>out2,out3=>out3,out4=>out4,out5=>out5,
         out6=>out6,out7=>out7,out8=>out8,out9=>out9,
-        out10=>out10,out11=>out11,out12=>out12);
+        out10=>out10,out11=>out11,out12=>out12, led=>led);
 
     controlPath: entity work.controlPath(arch)
         port map (clk=>clk, rst=>rst, limit_reached=>limit_reached, 
