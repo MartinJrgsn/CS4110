@@ -1,48 +1,102 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+----------------------------------------------------------------------------------
+-- Engineer: Martin Jørgensen
+-- 
+-- Create Date: 27.11.2023 10:00:43
+-- Design Name: 
+-- Module Name: pwm_module - arch
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
 
-entity down_counter_echo is
-    Generic (
-           COUNTER_SIZE : INTEGER := 23
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity pwm_module is
+    generic(
+        DATA_WIDTH: integer:=9;
+        PWM_PERIOD : integer := 3800000 -- 3.8M Cycles = 38 ms at 100MHz
     );
-    Port ( clk, rst, echo: in std_logic;
-           trig, dout: out std_logic;
-           distance : out std_logic_vector(8 downto 0)
-     );
-end down_counter_echo;
+    Port (
+        clk : in STD_LOGIC; -- 100MHz clock
+        rst : in STD_LOGIC; -- Reset signal
+        trig : out STD_LOGIC; -- TRIG pin for HC-SR04
+        echo : in STD_LOGIC; -- ECHO pin from HC-SR04
+        dout : out STD_LOGIC; -- Distance above limit
+        distance : buffer STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0) -- Distance measured
+    );
+end pwm_module;
 
-architecture arch of down_counter_echo is
-signal counter, counter_next: std_logic_vector (COUNTER_SIZE-1 downto 0);
-signal measured_distance : std_logic_vector(8 downto 0);
-
-constant CM : INTEGER := 5831;
-constant THRESHOLD : INTEGER := 12*CM;
-constant PWM_PERIOD : INTEGER := 3800000;
-
+architecture arch of pwm_module is
+    signal counter, echo_start, echo_end : INTEGER range 0 to PWM_PERIOD := 0;
+    signal trigger_signal : STD_LOGIC := '0';
+    signal measuring : BOOLEAN := FALSE;
+    signal THRESHOLD : STD_LOGIC_VECTOR(7 downto 0) := std_logic_vector(to_unsigned(12, 8));
+    signal measured_distance : INTEGER range 0 to 400 := 0;
 begin
--- state register section
-process (clk, rst)
-   begin
-   if (rst = '1') then
-      counter <= (others => '0');
-      distance <= (others => '0');
-   elsif rising_edge(clk) then
-      counter <= counter_next;
-      if (measured_distance >= std_logic_vector(to_unsigned(2, 9)) and 
-          measured_distance <= std_logic_vector(to_unsigned(400, 9))) then
-          distance <= measured_distance;
-      else
-          distance <= (others => '0');
-      end if;
-   end if;
-   
-end process;
 
-counter_next <= std_logic_vector(unsigned(counter) + 1) when unsigned(counter) < PWM_PERIOD else (others => '0');
-trig <= '1' when unsigned(counter) < 1000 else '0';
--- outputs section
-dout <= '1' when (unsigned(counter) > THRESHOLD) and echo = '1' else '0'; -- Set dout to 1 if distance > threshold, else 0
-measured_distance <= std_logic_vector(to_unsigned(to_integer(unsigned(counter)) / CM, distance'length)) when echo = '0';
+    process(clk, rst)
+    begin
+        if rst = '1' then
+            counter <= 0;
+            trigger_signal <= '0';
+            measuring <= FALSE;
+            distance <= (others => '0');
+            measured_distance <= 0;
+        elsif rising_edge(clk) then
+
+
+            if counter < PWM_PERIOD then
+                counter <= counter + 1;
+            else
+                counter <= 0;
+            end if;
+
+            -- Trigger logic
+            if counter = 0 then
+                trigger_signal <= '1';
+            elsif counter = 1000 then -- 10 microseconds
+                trigger_signal <= '0';
+            end if;
+
+            -- Echo logic
+            if echo = '1' and not measuring then
+                echo_start <= counter;
+                measuring <= TRUE;
+            elsif echo = '0' and measuring then
+                echo_end <= counter;
+                -- Calculate distance for speed of sound in air ~ 343 m/s)
+                measured_distance <= (counter - echo_start) / 5831;
+                measuring <= FALSE;
+
+                -- Validate the measured distance
+                if measured_distance < 2 or measured_distance > 400 then
+                    distance <= (others => '0'); -- Error value
+                else
+                    distance <= std_logic_vector(to_unsigned(measured_distance, 9));
+                end if;
+            end if;
+
+            -- Check if distance is above the threshold
+            if unsigned(distance) > unsigned(THRESHOLD) then
+                dout <= '0';
+            else
+                dout <= '1';
+            end if;
+        end if;
+    end process;
+
+    trig <= trigger_signal;
 
 end arch;
