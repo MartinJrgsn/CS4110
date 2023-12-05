@@ -43,7 +43,7 @@ valout <= valin_lo when alu_ctr_in="0000000" else -- LD Ri,<imm>
           valin_hi when alu_ctr_in="0010011" else -- SSEG Ri
           (valin_hi AND valin_lo); -- When any other
 
-alu_zero <= '1' when valin_hi="0000000" else '0'; -- LD Ri,<imm>
+alu_zero <= '1' when valin_hi="0000000" else '0'; -- Used for JR(N)Z Ri,<imm>
 
 alu_dout <= std_logic_vector(valout);
 
