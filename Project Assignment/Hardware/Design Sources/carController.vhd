@@ -54,10 +54,6 @@ architecture arch of carController is
 ----------------------------------------------------------------------------------
 begin
 
--- module 1
-    --cnt32bits: entity work.cnt32bits(arch)
-      --  port map ( clk=>clk, rst=>clear_cnt, up=>start_cnt, dout=>cnt_value );
-
     pwm_module: entity work.pwm_module(arch)
         port map ( clk=>clk, rst=>rst, 
         echo=>pwm, trig=>pwm_trigger, dout=>down_done_echo, distance=>distance );
@@ -73,12 +69,6 @@ begin
     down_counter_right: entity work.down_counter_right(arch)
         port map ( clk=>clk, rst=>rst_down_cnt_right, up=>start_down_cnt_right, dout=>down_done_right );
 
---    down_counter_trigger: entity work.down_counter_trigger(arch)
---        port map ( clk=>clk, rst=>rst_down_cnt_trigger, up=>start_down_cnt_trigger, dout=>down_done_trigger );
-
--- module 2 
-    --comperator: entity work.comperator(arch)
-     --   port map (clk=>clk, first_input=>cnt_value, second_input=>cnt_limit, result=>limit_reached);
         
     driveSettings: entity work.driveSettings(arch)
         port map (clk=>clk, state=>current_state, out1=>out1, 
