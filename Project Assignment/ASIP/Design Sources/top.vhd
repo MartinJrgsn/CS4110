@@ -159,12 +159,14 @@ begin
              reg_d=>alu_dout,
              reg_q=>sseg_dd_out);
 
+    -- instantiate Seven-segment Display Decoder
     sseg_decoder: entity work.sseg_display_decoder(arch)
     port map(clk=>clk,
              din=>sseg_dd_out,
              sseg=>sseg_out,
              an=>an_out);
 
+    -- instantiate Motor Direction Register
     motor_dir_reg: entity work.reg(arch)
     port map(clk=>clk,
              rst=>rst,
@@ -172,6 +174,7 @@ begin
              reg_d=>alu_dout,
              reg_q=>m_dir_reg_out);
 
+    -- instantiate PWM Module for reading Ultrasonic Distance Sensor
     pwm_module: entity work.pwm_module(arch)
     port map(clk=>clk,
              rst=>rst,
@@ -182,6 +185,7 @@ begin
              distance=>distance,
              write_limit=>write_limit);
 
+    -- instantiate Timer Module for counting seconds or fractions of seconds
     timer_module: entity work.timer_module(arch)
     port map(clk=>clk,
              rst=>rst,
