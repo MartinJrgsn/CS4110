@@ -4,7 +4,7 @@
 -- Create Date: 27.11.2023 10:00:43
 -- Design Name: 
 -- Module Name: pwm_module - arch
--- Project Name: 
+-- Project Name: Hardware only solution
 -- Target Devices: 
 -- Tool Versions: 
 -- Description: 

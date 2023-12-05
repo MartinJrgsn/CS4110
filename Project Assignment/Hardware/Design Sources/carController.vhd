@@ -1,5 +1,11 @@
 ----------------------------------------------------------------------------------
--- Top design module 
+-- Engineer / candidate nr: 8507
+-- 
+-- Create Date: 11.2023
+-- Module Name: Top file
+-- Project Name: Hardware only solution
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
 library IEEE; 
 use IEEE.STD_LOGIC_1164.ALL;
@@ -11,9 +17,9 @@ entity carController is
         );
     port ( 
         clk, rst: in STD_LOGIC;
-		pwm: in STD_LOGIC;
-        pwm_trigger:  out STD_LOGIC;
-           out1 : out STD_LOGIC;
+		pwm: in STD_LOGIC; -- echo input (from sensor) 
+        pwm_trigger:  out STD_LOGIC; -- trigger output (to sensor)
+           out1 : out STD_LOGIC; -- 12 outputs sent to the two motor drivers
            out2 : out STD_LOGIC;
            out3 : out STD_LOGIC;
            out4 : out STD_LOGIC;
@@ -25,11 +31,12 @@ entity carController is
            out10 : out STD_LOGIC;
            out11 : out STD_LOGIC;
            out12 : out STD_LOGIC;
-           led : out STD_LOGIC_VECTOR(11 downto 0);
-           sseg_out: out STD_LOGIC_VECTOR(6 downto 0);
-           an_out : out STD_LOGIC_VECTOR(3 downto 0));
+           led : out STD_LOGIC_VECTOR(11 downto 0); -- leds
+           sseg_out: out STD_LOGIC_VECTOR(6 downto 0); -- display value
+           an_out : out STD_LOGIC_VECTOR(3 downto 0)); -- display enabler
 end carController;
 
+-- signals for connecting the components
 architecture arch of carController is
     signal cnt_value, cnt_limit: std_logic_vector(31 downto 0);
     signal current_state: std_logic_vector(2 downto 0);
@@ -42,9 +49,7 @@ architecture arch of carController is
     signal sseg_reg_dout: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_result: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_input: std_logic_vector(DATA_WIDTH-1 downto 0);
-    -- top level output signals
-    --signal out1_top, out2_top,out3_top,out4_top,out5_top,out6_top,out7_top,out8_top,out9_top,
-    --out10_top,out11_top,out12_top: std_logic;
+
     
 ----------------------------------------------------------------------------------
 begin
