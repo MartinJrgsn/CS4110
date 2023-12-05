@@ -85,9 +85,7 @@ architecture arch of ASIP is
     signal sseg_dd_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal m_dir_reg_out: std_logic_vector(DRDATA_WIDTH-1 downto 0); --
 
-
 begin
-
     -- instantiate program counter
     pc: entity work.pc(arch)
     port map(clk=>clk,
