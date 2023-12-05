@@ -1,10 +1,24 @@
--- josemmf@usn.no | 2023.10
--- Single-port ROM w/ 8-bit addr bus, 24-bit data bus
--- (adapted from) Listing 11.5
+----------------------------------------------------------------------------------
+-- Engineer: Martin Jørgensen
+--
+-- Create Date: 10.2023
+-- Created by Jose M. M. Ferreira
+-- Design Name: imem
+-- Module Name: imem - arch
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Single-port ROM w/ 8-bit addr bus, 24-bit data bus
+--
+-- Revision: 0.02
+-- Revision 0.02 - Modified RISC-V type assembly for operating the car
+-- Revision 0.01 - (adapted from) Listing 11.5
+--
+----------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+
 entity imem is
    generic(
       IMADDR_WIDTH: integer:=5;
@@ -19,8 +33,8 @@ end imem;
 architecture arch of imem is
    type rom_type is array (0 to 2**IMADDR_WIDTH-1)
         of std_logic_vector(IMDATA_WIDTH-1 downto 0);
-    
-   constant instr_opcodes: rom_type:=(  
+
+   constant instr_opcodes: rom_type:=(
       x"140000",  -- addr 00: S:  LD   R0,20     # 00010100(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0000000 = 000101000000000000000000 = 140000
       x"000017",  -- addr 01:     STH  R0        # 00000000(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0010111 = 000000000000000000010111 = 000017
       x"FF0000",  -- addr 02:     LD   R0,255    # 11111111(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0000000 = 111111110000000000000000 = FF0000

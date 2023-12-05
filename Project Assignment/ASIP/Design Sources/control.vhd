@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
 -- Design Name: Control
@@ -8,15 +8,16 @@
 -- Project Name: car_movement_asip
 -- Target Devices: Basys 3
 -- Description: Instruction and execution control
--- 
--- Revision: 0.03 - Add OPCODE for setting distance threshold
+--
+-- Revision: 0.03
+-- Revision 0.03 - Add OPCODE for setting distance threshold
 -- Revision 0.02 - Modified OPCODES and output logic
 -- Revision 0.01 - File Created
--- 
+--
 ----------------------------------------------------------------------------------
 
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity control is
    generic(
@@ -26,8 +27,6 @@ entity control is
       clk: in std_logic;
       rst: in std_logic;
       btn_wr: in std_logic;
-      --above_limit: in std_logic;
-      --count_done: in std_logic;
       alu_zero: in std_logic;
       opcode: in std_logic_vector(OPCODE_WIDTH-1 downto 0);
       btn_mux_ctr: out std_logic;

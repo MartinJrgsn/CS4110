@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin J�rgensen
--- 
+--
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
 -- Design Name: ASIP
@@ -12,10 +12,11 @@
 -- motor drivers, one Basys 3 board and one HC-SR04 Ultrasonic Distance Sensor.
 -- The instructions for driving the car can be changed through RISC-V assembly
 -- in the imem.vhd file.
--- 
--- Revision: 0.02 - Modified ports, signals, components, and muxes
+--
+-- Revision: 0.02
+-- Revision 0.02 - Modified ports, signals, components, and muxes
 -- Revision 0.01 - Listing 6.3 modified
--- 
+--
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -38,12 +39,12 @@ entity ASIP is
    port(clk, rst: in std_logic;
    echo: in std_logic; --
    trig: out std_logic; --
-   sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); -- 
+   sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); --
    btnC: in std_logic; --
    ENB_1, IN3_1, IN4_1: out std_logic;     -- ENB_1, IN3_1, IN4_1
    ENA_2, IN1_2, IN2_2: out std_logic;     -- ENA_2, IN1_1, IN2_1
    ENA_1, IN1_1, IN2_1: out std_logic;     -- ENA_1, IN1_1, IN2_1
-   ENB_2, IN3_2, IN4_2: out std_logic;  -- ENB_2, IN3_2, IN4_2
+   ENB_2, IN3_2, IN4_2: out std_logic;     -- ENB_2, IN3_2, IN4_2
    led: out std_logic_vector(11 downto 0);
    sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0); --
    an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0)); --
@@ -53,7 +54,6 @@ end ASIP;
 architecture arch of ASIP is
     signal btn_wr: std_logic;
     signal btn_mux_ctr: std_logic;
-    --signal clr: std_logic; -- maybe not needed
     signal write_limit: std_logic;
     signal above_limit: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal dl_mux_ctr: std_logic;
@@ -85,30 +85,28 @@ architecture arch of ASIP is
     signal sseg_dd_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal m_dir_reg_out: std_logic_vector(DRDATA_WIDTH-1 downto 0); --
 
-
 begin
-
     -- instantiate program counter
     pc: entity work.pc(arch)
-    port map(clk=>clk, 
-             rst=>rst, 
+    port map(clk=>clk,
+             rst=>rst,
              reg_d=>pc_mux_out, -- data in
              reg_q=>pc_out);    -- data out
 
     -- instantiate instruction memory
     imem: entity work.imem(arch)
-    port map(im_addr=>pc_out(4 downto 0), 
+    port map(im_addr=>pc_out(4 downto 0),
              im_dout=>opcd_out);
 
 	-- instantiate data registers
     dreg: entity work.dreg(arch)
-    port map(clk=>clk, 
-             dr_wr_ctr=>dr_wr_ctr, 
+    port map(clk=>clk,
+             dr_wr_ctr=>dr_wr_ctr,
              dwr_addr=>opcd_out(9 downto 7),
              dr1_addr=>opcd_out(12 downto 10),
              dr2_addr=>opcd_out(15 downto 13),
-		     dwr_din=>dreg_mux_out, 
-		     dr1_dout=>dr1_dout, 
+		     dwr_din=>dreg_mux_out,
+		     dr1_dout=>dr1_dout,
 		     dr2_dout=>dr2_dout);
 
 	-- instantiate ALU
@@ -121,7 +119,7 @@ begin
 
 	-- instantiate data memory
     dmem: entity work.dmem(arch)
-    port map(clk=>clk, 
+    port map(clk=>clk,
              dm_wr_ctr=>dm_wr_ctr,
 		     dm_addr=>alu_dout,
 		     dm_din=>dr2_dout,
@@ -158,19 +156,22 @@ begin
              reg_d=>alu_dout,
              reg_q=>sseg_dd_out);
 
+    -- instantiate Seven-segment Display Decoder
     sseg_decoder: entity work.sseg_display_decoder(arch)
     port map(clk=>clk,
              din=>sseg_dd_out,
              sseg=>sseg_out,
              an=>an_out);
 
+    -- instantiate Motor Direction Register
     motor_dir_reg: entity work.reg(arch)
     port map(clk=>clk,
              rst=>rst,
              reg_ld=>m_dir_wr,
              reg_d=>alu_dout,
              reg_q=>m_dir_reg_out);
-             
+
+    -- instantiate PWM Module for reading Ultrasonic Distance Sensor
     pwm_module: entity work.pwm_module(arch)
     port map(clk=>clk,
              rst=>rst,
@@ -180,7 +181,8 @@ begin
              above_limit=>above_limit,
              distance=>distance,
              write_limit=>write_limit);
-             
+
+    -- instantiate Timer Module for counting seconds or fractions of seconds
     timer_module: entity work.timer_module(arch)
     port map(clk=>clk,
              rst=>rst,
@@ -189,8 +191,8 @@ begin
              count_done=>count_done);
 
     -- Glue logic at top level: th_mux
-    th_mux_out <= sw when btn_mux_ctr='1' else dr2_dout;    
-    
+    th_mux_out <= sw when btn_mux_ctr='1' else dr2_dout;
+
     -- Glue logic at top level: dl_mux
     dl_mux_out <= distance when dl_mux_ctr='1' else above_limit;
 
@@ -210,7 +212,7 @@ begin
 
 	-- Glue logic at top level: alu_dmem_mux
 	alu_dmem_mux_out <= alu_dout when alu_dmem_mux_ctr='1' else dm_dout;
-	
+
 	-- Output logic for Motor Directions:
 	-----------------------------------------------|
 	ENB_1   <=      m_dir_reg_out(7);   -- ENB_1    | Left  F1  B1 --out1

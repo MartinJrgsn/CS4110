@@ -1,25 +1,26 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 28.11.2023 11:57:57
--- Design Name: 
--- Module Name: sseg_display_decoder - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Revision: 0.01
+-- Design Name: sseg_display_decoder
+-- Module Name: sseg_decoder - arch
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Seven-Segment Display Decoder:
+-- Transforms integers to Seven-segment display values.
+-- Three states for each digit, three digit active for
+-- normal signals. Four dashes for error (others => '0') signals.
+--
+-- Revision: 0.02
+-- Revision 0.02 - Support three digits (2 to 255)
 -- Revision 0.01 - File Created
--- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 
 entity sseg_display_decoder is
     generic(
@@ -60,7 +61,7 @@ architecture arch of sseg_display_decoder is
 
     -- Signal declarations for values
     signal digit0, digit1, digit2 : STD_LOGIC_VECTOR (3 downto 0); -- To hold individual digits
-    signal decimal_value : integer range 0 to 255; -- To hold decimal equivalent of bin_value 
+    signal decimal_value : integer range 0 to 255; -- To hold decimal equivalent of bin_value
 
 begin
 

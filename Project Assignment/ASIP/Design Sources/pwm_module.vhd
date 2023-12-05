@@ -1,27 +1,24 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 27.11.2023 10:00:43
--- Design Name: 
+-- Design Name: pwm_module
 -- Module Name: pwm_module - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Module for reading sensor data from HC-SR04
+-- Ultrasonic Distance Sensor
+--
+-- Revision: 0.02
+-- Revision 0.02 - 38ms period mod n up counter
 -- Revision 0.01 - File Created
--- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity pwm_module is
     generic(

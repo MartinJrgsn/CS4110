@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 24.11.2023 10:20:01
 -- Design Name: Timer
 -- Module Name: timer_module - arch
@@ -13,17 +13,16 @@
 -- 01111101 = ((01111*101)/11111) * 100M = (15*5)/31 * 100M = 2,42 * 100M cycles
 -- The basys 3 board runs at 100MHz, which means that 700M cycles equals 7 seconds,
 -- and 242M cycles equals 2,42 seconds.
--- 
+--
 -- Revision: 0.02
 -- Revision 0.02 - Changed to timer_module.
 -- Revision 0.01 - File Created
--- 
+--
 ----------------------------------------------------------------------------------
 
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity timer_module is
     generic(N: integer := 8);  -- 8-bit vector for input
@@ -71,13 +70,9 @@ begin
                  r_reg <= resize(resize(seconds, r_reg'length) * to_unsigned(clock_rate, r_reg'length) * resize(percentage, r_reg'length) / to_unsigned(max_percentage, r_reg'length), r_reg'length);
             else
                 if dc_en = '1' and r_reg /= 0 then
-                    --r_next <= r_reg - 1;
                     r_reg <= r_reg -1;
                 else
                     r_reg <= r_reg;
-                    --if just_loaded = '1' then
-                        --just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
-                    --end if;
                 end if;
                 just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
             end if;
