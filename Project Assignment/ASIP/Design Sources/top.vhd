@@ -54,7 +54,6 @@ end ASIP;
 architecture arch of ASIP is
     signal btn_wr: std_logic;
     signal btn_mux_ctr: std_logic;
-    --signal clr: std_logic; -- maybe not needed
     signal write_limit: std_logic;
     signal above_limit: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal dl_mux_ctr: std_logic;
