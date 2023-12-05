@@ -19,8 +19,8 @@ end imem;
 architecture arch of imem is
    type rom_type is array (0 to 2**IMADDR_WIDTH-1)
         of std_logic_vector(IMDATA_WIDTH-1 downto 0);
-    
-   constant instr_opcodes: rom_type:=(  
+
+   constant instr_opcodes: rom_type:=(
       x"140000",  -- addr 00: S:  LD   R0,20     # 00010100(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0000000 = 000101000000000000000000 = 140000
       x"000017",  -- addr 01:     STH  R0        # 00000000(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0010111 = 000000000000000000010111 = 000017
       x"FF0000",  -- addr 02:     LD   R0,255    # 11111111(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=R0) 0000000 = 111111110000000000000000 = FF0000

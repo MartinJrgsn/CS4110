@@ -1,18 +1,18 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 28.11.2023 11:57:57
--- Design Name: 
+-- Design Name:
 -- Module Name: sseg_display_decoder - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
+-- Project Name:
+-- Target Devices:
+-- Tool Versions:
+-- Description:
+--
 -- Revision: 0.01
 -- Revision 0.01 - File Created
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
 
@@ -60,7 +60,7 @@ architecture arch of sseg_display_decoder is
 
     -- Signal declarations for values
     signal digit0, digit1, digit2 : STD_LOGIC_VECTOR (3 downto 0); -- To hold individual digits
-    signal decimal_value : integer range 0 to 255; -- To hold decimal equivalent of bin_value 
+    signal decimal_value : integer range 0 to 255; -- To hold decimal equivalent of bin_value
 
 begin
 

@@ -29,8 +29,8 @@ valout <= valin_lo when alu_ctr_in="0000000" else -- LD Ri,<imm>
 
           (valin_hi + valin_lo) when (alu_ctr_in="0000010" and valin_lo(7)='0') else
           (valin_hi - not(valin_lo-1)) when (alu_ctr_in="0000010" and valin_lo(7)='1') else -- LD Ri,X(Rj)
-          
-          (valin_hi + valin_lo) when alu_ctr_in="0000011" else -- ST Ri,X(Rj)                    
+
+          (valin_hi + valin_lo) when alu_ctr_in="0000011" else -- ST Ri,X(Rj)
           (valin_hi - 1) when alu_ctr_in="0000100" else -- DEC Ri
           (valin_hi + 1) when alu_ctr_in="0000101" else -- INC Ri
           (valin_hi + valin_lo) when alu_ctr_in="0000110" else -- ADD Ri,Rj,Rk (unsigned addition)
