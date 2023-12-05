@@ -14,7 +14,6 @@
 -- Revision 0.01 - (adapted from) Listing 11.5
 --
 ----------------------------------------------------------------------------------
--- (adapted from) Listing 11.5
 
 library ieee;
 use ieee.std_logic_1164.all;
