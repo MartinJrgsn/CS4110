@@ -76,10 +76,6 @@ begin
 --    down_counter_trigger: entity work.down_counter_trigger(arch)
 --        port map ( clk=>clk, rst=>rst_down_cnt_trigger, up=>start_down_cnt_trigger, dout=>down_done_trigger );
 
-    edgeDetector: entity work.edgeDetector(arch)
-        port map (  clk=>clk, echo_pwm=>pwm, echo_done=>echo_done, 
-        echo_active=>echo_active, clear_done => clear_echo_done);
-
 -- module 2 
     --comperator: entity work.comperator(arch)
      --   port map (clk=>clk, first_input=>cnt_value, second_input=>cnt_limit, result=>limit_reached);
