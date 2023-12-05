@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 24.11.2023 10:20:01
 -- Design Name: Timer
 -- Module Name: timer_module - arch
@@ -13,11 +13,11 @@
 -- 01111101 = ((01111*101)/11111) * 100M = (15*5)/31 * 100M = 2,42 * 100M cycles
 -- The basys 3 board runs at 100MHz, which means that 700M cycles equals 7 seconds,
 -- and 242M cycles equals 2,42 seconds.
--- 
+--
 -- Revision: 0.02
 -- Revision 0.02 - Changed to timer_module.
 -- Revision 0.01 - File Created
--- 
+--
 ----------------------------------------------------------------------------------
 
 

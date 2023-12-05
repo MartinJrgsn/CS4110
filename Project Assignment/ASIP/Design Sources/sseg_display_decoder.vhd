@@ -8,7 +8,7 @@
 -- Target Devices: Basys 3
 -- Description: Seven-Segment Display Decoder:
 -- Transforms integers to Seven-segment display values.
--- Three states for each digit, three digit active for 
+-- Three states for each digit, three digit active for
 -- normal signals. Four dashes for error (others => '0') signals.
 --
 -- Revision: 0.02

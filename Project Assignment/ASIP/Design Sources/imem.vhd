@@ -9,7 +9,7 @@
 -- Target Devices: Basys 3
 -- Description: Single-port ROM w/ 8-bit addr bus, 24-bit data bus
 --
--- Revision: 0.02 
+-- Revision: 0.02
 -- Revision 0.02 - Modified RISC-V type assembly for operating the car
 -- Revision 0.01 - (adapted from) Listing 11.5
 --
