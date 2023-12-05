@@ -70,13 +70,9 @@ begin
                  r_reg <= resize(resize(seconds, r_reg'length) * to_unsigned(clock_rate, r_reg'length) * resize(percentage, r_reg'length) / to_unsigned(max_percentage, r_reg'length), r_reg'length);
             else
                 if dc_en = '1' and r_reg /= 0 then
-                    --r_next <= r_reg - 1;
                     r_reg <= r_reg -1;
                 else
                     r_reg <= r_reg;
-                    --if just_loaded = '1' then
-                        --just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
-                    --end if;
                 end if;
                 just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
             end if;
