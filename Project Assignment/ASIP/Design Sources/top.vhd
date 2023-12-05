@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin Jørgensen
+-- Engineer: Martin Jï¿½rgensen
 -- 
 -- Create Date: 10.2023
 -- Created by Jose M. M. Ferreira
