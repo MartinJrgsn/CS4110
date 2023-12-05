@@ -2,18 +2,16 @@
 -- Engineer: Martin Jørgensen
 --
 -- Create Date: 27.11.2023 10:00:43
--- Design Name:
+-- Design Name: pwm_module
 -- Module Name: pwm_module - arch
--- Project Name:
--- Target Devices:
--- Tool Versions:
--- Description:
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Module for reading sensor data from HC-SR04
+-- Ultrasonic Distance Sensor
 --
--- Dependencies:
---
--- Revision:
+-- Revision: 0.02
+-- Revision 0.02 - 38ms period mod n up counter
 -- Revision 0.01 - File Created
--- Additional Comments:
 --
 ----------------------------------------------------------------------------------
 

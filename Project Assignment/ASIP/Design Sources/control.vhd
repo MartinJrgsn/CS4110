@@ -9,7 +9,8 @@
 -- Target Devices: Basys 3
 -- Description: Instruction and execution control
 --
--- Revision: 0.03 - Add OPCODE for setting distance threshold
+-- Revision: 0.03
+-- Revision 0.03 - Add OPCODE for setting distance threshold
 -- Revision 0.02 - Modified OPCODES and output logic
 -- Revision 0.01 - File Created
 --

@@ -1,5 +1,19 @@
--- josemmf@usn.no | 2023.10
--- Listing 4.5 modified
+----------------------------------------------------------------------------------
+-- Engineer: Martin Jørgensen
+--
+-- Create Date: 10.2023
+-- Created by Jose M. M. Ferreira
+-- Design Name: alu
+-- Module Name: alu - arch
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Arithmetic Logic Unit (ALU)
+-- desribes actions based on the alu_ctr_in OPCODEs
+--
+-- Revision: 0.02 - Added data passthrough for SCD (Set Car Direction) and SSEG (Set Seven-segment Display)
+-- Revision 0.01 - Listing 4.5 modified
+--
+----------------------------------------------------------------------------------
 
 library ieee;
 use ieee.std_logic_1164.all;

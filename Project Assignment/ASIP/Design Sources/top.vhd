@@ -13,7 +13,8 @@
 -- The instructions for driving the car can be changed through RISC-V assembly
 -- in the imem.vhd file.
 --
--- Revision: 0.02 - Modified ports, signals, components, and muxes
+-- Revision: 0.02
+-- Revision 0.02 - Modified ports, signals, components, and muxes
 -- Revision 0.01 - Listing 6.3 modified
 --
 ----------------------------------------------------------------------------------
