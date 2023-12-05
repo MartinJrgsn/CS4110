@@ -40,6 +40,8 @@ architecture arch of carController is
     signal distance: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal load_sseg: std_logic := '1';
     signal sseg_reg_dout: std_logic_vector(DATA_WIDTH-1 downto 0);
+    signal fir_result: std_logic_vector(DATA_WIDTH-1 downto 0);
+    signal fir_input: std_logic_vector(DATA_WIDTH-1 downto 0);
     -- top level output signals
     --signal out1_top, out2_top,out3_top,out4_top,out5_top,out6_top,out7_top,out8_top,out9_top,
     --out10_top,out11_top,out12_top: std_logic;
@@ -54,6 +56,11 @@ begin
     pwm_module: entity work.pwm_module(arch)
         port map ( clk=>clk, rst=>rst, 
         echo=>pwm, trig=>pwm_trigger, dout=>down_done_echo, distance=>distance );
+        
+    fir_filter: entity work.fir_filter(arch)
+        port map (  rst=>rst, clk=>clk, 
+        result=>fir_result, input=>distance );
+
         
     down_counter_reverse: entity work.down_counter_reverse(arch)
         port map ( clk=>clk, rst=>rst_down_cnt_reverse, up=>start_down_cnt_reverse, dout=>down_done_reverse );
@@ -82,7 +89,7 @@ begin
         port map(clk=>clk,
             rst=>rst,
             reg_ld=>load_sseg,
-            reg_d=>distance,
+            reg_d=>fir_result,
             reg_q=>sseg_reg_dout);
     
     sseg_decoder: entity work.sseg_display_decoder(arch)
