@@ -8,7 +8,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity template_tb is
-   -- Port ();
+   -- Port (); 
 end template_tb;
 
 architecture arch of template_tb is
@@ -64,28 +64,28 @@ begin
         
         pwm_in <= '1';
         
-        wait for 3000us;
+        wait for 2700us;
         pwm_in <= '0';
         
         wait for 30us;
         
         pwm_in <= '1';
         
-        wait for 3000us;
+        wait for 3200us;
         pwm_in <= '0';
         
         wait for 30us;
         
         pwm_in <= '1';
         
-        wait for 3000us;
+        wait for 3100us;
         pwm_in <= '0';
         
         wait for 30us;
         
         pwm_in <= '1';
         
-        wait for 3000us;
+        wait for 4000us;
         pwm_in <= '0';
        
       
