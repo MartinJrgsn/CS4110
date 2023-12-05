@@ -27,8 +27,6 @@ entity control is
       clk: in std_logic;
       rst: in std_logic;
       btn_wr: in std_logic;
-      --above_limit: in std_logic;
-      --count_done: in std_logic;
       alu_zero: in std_logic;
       opcode: in std_logic_vector(OPCODE_WIDTH-1 downto 0);
       btn_mux_ctr: out std_logic;
