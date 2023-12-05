@@ -59,56 +59,15 @@ begin
       
       current_state <= "001";
       state_mode <= '1';
-      st_next <= S1;
+      st_next <= S1; 
       clear_echo_done <= '1';
 
       when S1 =>
         current_state <= "001";
-
-        
-        if state_mode = '1' then
-            trigger_ctr <= '1';
-            start_down_cnt_trigger <= '1';
-            rst_down_cnt_trigger  <= '0'; 
-        
-            
-            if down_done_trigger = '1' then
-                trigger_ctr <= '0';
-                
-                if echo_active = '1' then
-                        start_down_cnt_trigger <= '0';
-                        rst_down_cnt_trigger <= '1';
-                      state_mode <= '0';
-                      st_next <= S1;
-                 else 
-                    st_next <= S1; 
-                 end if;
-             else 
-                st_next <= S1; 
-             end if;
+        if (down_done_echo = '1') then
+            st_next <= S2;
         else
-              start_down_cnt_echo <= '1';
-              rst_down_cnt_echo  <= '0';
-              clear_echo_done <= '0';
-            
-            if down_done_echo = '0' AND echo_done = '1' then 
-                st_next <= S2;
-                clear_echo_done <= '1';
-                start_down_cnt_echo <= '0';
-                rst_down_cnt_echo <= '1';
-                
-                
-            else  
-                if echo_done = '1' then
-                    start_down_cnt_echo <= '0';
-                    rst_down_cnt_echo <= '1';
-                    state_mode <= '1';
-                    st_next <= S1;
-                    clear_echo_done <= '1';
-                 else
-                   st_next <= S1;
-                 end if;
-            end if;
+            st_next <= S1;
         end if;
  
       when S2 =>
