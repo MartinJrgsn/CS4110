@@ -41,7 +41,7 @@ architecture arch of timer_module is
     constant max_percentage: natural := 31;     -- Maximum percentage value (5-bit max)
 
     -- Signals
-    signal r_reg, r_next: unsigned(29 downto 0);  -- Timer count (30-bit for up to 1,073,741,823)
+    signal r_reg: unsigned(29 downto 0) := (others => '0');  -- Timer count (30-bit for up to 1,073,741,823)
     signal percentage: unsigned(4 downto 0);     -- 5-bit percentage
     signal seconds: unsigned(2 downto 0);        -- 3-bit seconds
     signal dc_en: std_logic;                     -- Internal enable signal
@@ -65,16 +65,21 @@ begin
                 seconds <= unsigned(dr1_din(2 downto 0));
 
                 -- Directly update r_reg with the calculated timer value
-                r_reg <= unsigned(to_unsigned(to_integer(percentage * unsigned(to_unsigned(to_integer(seconds), percentage'length)) * clock_rate), r_reg'length) / max_percentage);
                 just_loaded <= '1';  -- Set just_loaded when dr1_din is loaded
+            elsif just_loaded = '1' then
+                 just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
+                 r_reg <= resize(resize(seconds, r_reg'length) * to_unsigned(clock_rate, r_reg'length) * resize(percentage, r_reg'length) / to_unsigned(max_percentage, r_reg'length), r_reg'length);
             else
                 if dc_en = '1' and r_reg /= 0 then
-                    r_next <= r_reg - 1;
+                    --r_next <= r_reg - 1;
+                    r_reg <= r_reg -1;
                 else
-                    r_next <= r_reg;
+                    r_reg <= r_reg;
+                    --if just_loaded = '1' then
+                        --just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
+                    --end if;
                 end if;
                 just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
-                r_reg <= r_next;
             end if;
         end if;
     end process;

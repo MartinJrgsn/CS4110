@@ -62,8 +62,7 @@ architecture arch of control is
 --   constant ORI_Ri_Rj_imm: std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001001";
 --   constant ANR_Ri_Rj_Rk:  std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001010";
 --   constant ANI_Ri_Rj_imm: std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001011";
---   constant JRZ_Ri_imm:    std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001100";
-
+   constant JRZ_Ri_imm:    std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001100";
    constant JRNZ_Ri_imm:   std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001101";
    constant J_imm:         std_logic_vector(OPCODE_WIDTH-1 downto 0) :="0001110";
 
@@ -169,11 +168,11 @@ begin
 --	            -- dr_wr_ctr <= '1';
 --                -- alu_mux_ctr <= '1';
 --	            -- alu_dmem_mux_ctr <= '1';
---	         elsif opcode=JRZ_Ri_imm then -- JRZ Ri,<imm> (jump if Ri is zero)
---                -- pc_mux_ctr <= not(alu_zero);
+	         elsif opcode=JRZ_Ri_imm then -- JRZ Ri,<imm> (jump if Ri is zero)
+                 pc_mux_ctr <= alu_zero;
 
 	         elsif opcode=JRNZ_Ri_imm then -- JRNZ Ri,<imm> (jump if Ri is not zero)
-                pc_mux_ctr <= alu_zero;
+                pc_mux_ctr <= not(alu_zero);
              elsif opcode=J_imm then -- J <imm> (unconditional jump)
 
                 -- no signals to activate in this case

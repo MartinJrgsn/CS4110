@@ -10,15 +10,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="113,999,978.392 ns"></ZoomStartTime>
-      <ZoomEndTime time="114,000,070.322 ns"></ZoomEndTime>
-      <Cursor1Time time="114,000,055.000 ns"></Cursor1Time>
+      <ZoomStartTime time="177.451 ns"></ZoomStartTime>
+      <ZoomEndTime time="282.746 ns"></ZoomEndTime>
+      <Cursor1Time time="195.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="280"></NameColumnWidth>
-      <ValueColumnWidth column_width="95"></ValueColumnWidth>
+      <ValueColumnWidth column_width="91"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="49" />
+   <WVObjectSize size="50" />
    <wave_markers>
       <marker time="5000" label="" />
       <marker time="15000" label="" />
@@ -97,6 +97,39 @@
    <wvobject fp_name="/tb_asip/uut/opcd_out" type="array">
       <obj_property name="ElementShortName">opcd_out[23:0]</obj_property>
       <obj_property name="ObjectShortName">opcd_out[23:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="vbus208" type="vbus">
+      <obj_property name="label">opcode</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[6]" type="logic">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[5]" type="logic">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[4]" type="logic">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[3]" type="logic">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[2]" type="logic">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[1]" type="logic">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_asip/uut/opcd_out[0]" type="logic">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="vbus187" type="vbus">
       <obj_property name="label">imm</obj_property>
@@ -186,39 +219,6 @@
          <obj_property name="ObjectShortName">[7]</obj_property>
       </wvobject>
    </wvobject>
-   <wvobject fp_name="vbus208" type="vbus">
-      <obj_property name="label">opcode</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[6]" type="logic">
-         <obj_property name="ElementShortName">[6]</obj_property>
-         <obj_property name="ObjectShortName">[6]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[5]" type="logic">
-         <obj_property name="ElementShortName">[5]</obj_property>
-         <obj_property name="ObjectShortName">[5]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[4]" type="logic">
-         <obj_property name="ElementShortName">[4]</obj_property>
-         <obj_property name="ObjectShortName">[4]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[3]" type="logic">
-         <obj_property name="ElementShortName">[3]</obj_property>
-         <obj_property name="ObjectShortName">[3]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[2]" type="logic">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[1]" type="logic">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/opcd_out[0]" type="logic">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-      </wvobject>
-   </wvobject>
    <wvobject fp_name="/tb_asip/uut/alu_ctr" type="array">
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">alu_ctr[6:0]</obj_property>
@@ -247,6 +247,20 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="label">R2 car_direction_backward</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_asip/uut/dreg/ram[3]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[3][7:0]</obj_property>
+      <obj_property name="ObjectShortName">[3][7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="label">R3 above_limit</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_asip/uut/dreg/ram[4]" type="array">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">[4][7:0]</obj_property>
+      <obj_property name="ObjectShortName">[4][7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="label">R4 count_done</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_asip/uut/dreg/ram[5]" type="array">
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">[5][7:0]</obj_property>
@@ -268,20 +282,6 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="label">R7 distance</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_asip/uut/dreg/ram[4]" type="array">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[4][7:0]</obj_property>
-      <obj_property name="ObjectShortName">[4][7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      <obj_property name="label">R4 count_done</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_asip/uut/dreg/ram[3]" type="array">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">[3][7:0]</obj_property>
-      <obj_property name="ObjectShortName">[3][7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      <obj_property name="label">R3 above_limit</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb_asip/uut/sseg_dd_out" type="array">
       <obj_property name="ElementShortName">sseg_dd_out[7:0]</obj_property>
       <obj_property name="ObjectShortName">sseg_dd_out[7:0]</obj_property>
@@ -300,14 +300,6 @@
    <wvobject fp_name="/tb_asip/uut/count_done" type="array">
       <obj_property name="ElementShortName">count_done[7:0]</obj_property>
       <obj_property name="ObjectShortName">count_done[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_asip/uut/cnt_done" type="logic">
-      <obj_property name="ElementShortName">cnt_done</obj_property>
-      <obj_property name="ObjectShortName">cnt_done</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_asip/uut/alu_zero" type="logic">
-      <obj_property name="ElementShortName">alu_zero</obj_property>
-      <obj_property name="ObjectShortName">alu_zero</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_asip/uut/dm_wr_ctr" type="logic">
       <obj_property name="ElementShortName">dm_wr_ctr</obj_property>
@@ -361,57 +353,20 @@
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
       <obj_property name="label">Car Direction</obj_property>
    </wvobject>
-   <wvobject fp_name="vbus554" type="vbus">
-      <obj_property name="label">Motor Direction Output</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-      <wvobject fp_name="/tb_asip/uut/out1" type="logic">
-         <obj_property name="ElementShortName">out1</obj_property>
-         <obj_property name="ObjectShortName">out1</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out2" type="logic">
-         <obj_property name="ElementShortName">out2</obj_property>
-         <obj_property name="ObjectShortName">out2</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out3" type="logic">
-         <obj_property name="ElementShortName">out3</obj_property>
-         <obj_property name="ObjectShortName">out3</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out4" type="logic">
-         <obj_property name="ElementShortName">out4</obj_property>
-         <obj_property name="ObjectShortName">out4</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out5" type="logic">
-         <obj_property name="ElementShortName">out5</obj_property>
-         <obj_property name="ObjectShortName">out5</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out6" type="logic">
-         <obj_property name="ElementShortName">out6</obj_property>
-         <obj_property name="ObjectShortName">out6</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out7" type="logic">
-         <obj_property name="ElementShortName">out7</obj_property>
-         <obj_property name="ObjectShortName">out7</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out8" type="logic">
-         <obj_property name="ElementShortName">out8</obj_property>
-         <obj_property name="ObjectShortName">out8</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out9" type="logic">
-         <obj_property name="ElementShortName">out9</obj_property>
-         <obj_property name="ObjectShortName">out9</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out10" type="logic">
-         <obj_property name="ElementShortName">out10</obj_property>
-         <obj_property name="ObjectShortName">out10</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out11" type="logic">
-         <obj_property name="ElementShortName">out11</obj_property>
-         <obj_property name="ObjectShortName">out11</obj_property>
-      </wvobject>
-      <wvobject fp_name="/tb_asip/uut/out12" type="logic">
-         <obj_property name="ElementShortName">out12</obj_property>
-         <obj_property name="ObjectShortName">out12</obj_property>
-      </wvobject>
+   <wvobject fp_name="/tb_asip/uut/timer_module/count_done" type="array">
+      <obj_property name="ElementShortName">count_done[7:0]</obj_property>
+      <obj_property name="ObjectShortName">count_done[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_asip/uut/opcd_out" type="array">
+      <obj_property name="ElementShortName">opcd_out[23:0]</obj_property>
+      <obj_property name="ObjectShortName">opcd_out[23:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_asip/uut/alu_zero" type="logic">
+      <obj_property name="ElementShortName">alu_zero</obj_property>
+      <obj_property name="ObjectShortName">alu_zero</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_asip/uut/pc_mux_ctr" type="logic">
+      <obj_property name="ElementShortName">pc_mux_ctr</obj_property>
+      <obj_property name="ObjectShortName">pc_mux_ctr</obj_property>
    </wvobject>
 </wave_config>
