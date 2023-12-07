@@ -70,11 +70,11 @@ architecture arch of imem is
 
       x"ED000E",  -- addr 26:     J L            # 11101101(imm) 000(rs2=  ) 000(rs1=  ) 000(rd=  ) 0001110 = 111011010000000000001110 = ED000E
 
-	  x"FFFFFF",  -- addr 27: (void)
-	  x"FFFFFF",  -- addr 28: (void)
-	  x"FFFFFF",  -- addr 29: (void)
-	  x"FFFFFF",  -- addr 30: (void)
-	  x"FFFFFF"   -- addr 31: (void)
+      x"FFFFFF",  -- addr 27: (void)
+      x"FFFFFF",  -- addr 28: (void)
+      x"FFFFFF",  -- addr 29: (void)
+      x"FFFFFF",  -- addr 30: (void)
+      x"FFFFFF"   -- addr 31: (void)
    );
 begin
    im_dout <= instr_opcodes(to_integer(unsigned(im_addr)));
