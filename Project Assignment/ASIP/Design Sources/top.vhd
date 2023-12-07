@@ -89,10 +89,10 @@ architecture arch of ASIP is
     begin
     -- instantiate program counter
     pc: entity work.pc(arch)
-        port map(clk=>clk,
-        rst=>rst,
-        reg_d=>pc_mux_out, -- data in
-        reg_q=>pc_out);    -- data out
+    port map(clk=>clk,
+             rst=>rst,
+             reg_d=>pc_mux_out, -- data in
+             reg_q=>pc_out);    -- data out
 
     -- instantiate instruction memory
     imem: entity work.imem(arch)
