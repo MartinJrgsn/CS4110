@@ -52,7 +52,7 @@ begin
         --clear_cnt <= '0';
         --clear_echo_done <= '0';
    
-   case st_now is
+    case st_now is
       when S0 => -- clear/reset values and components 
       start_down_cnt_echo <= '0';
       rst_down_cnt_echo  <= '1'; 
@@ -116,7 +116,7 @@ begin
                      
         end if;
         
-end case;
+    end case;
 end process;
 
 
