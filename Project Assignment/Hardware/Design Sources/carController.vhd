@@ -49,11 +49,8 @@ architecture arch of carController is
     signal sseg_reg_dout: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_result: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_input: std_logic_vector(DATA_WIDTH-1 downto 0);
-
-
 ----------------------------------------------------------------------------------
 begin
-
     pwm_module: entity work.pwm_module(arch)
         port map ( clk=>clk, rst=>rst,
         echo=>pwm, trig=>pwm_trigger, dout=>down_done_echo, distance=>distance );
@@ -62,13 +59,11 @@ begin
         port map (  rst=>rst, clk=>clk,
         result=>fir_result, input=>distance );
 
-
     down_counter_reverse: entity work.down_counter_reverse(arch)
         port map ( clk=>clk, rst=>rst_down_cnt_reverse, up=>start_down_cnt_reverse, dout=>down_done_reverse );
 
     down_counter_left: entity work.down_counter_left(arch)
         port map ( clk=>clk, rst=>rst_down_cnt_left, up=>start_down_cnt_left, dout=>down_done_left );
-
 
     driveSettings: entity work.driveSettings(arch)
         port map (clk=>clk, state=>current_state, out1=>out1,
@@ -99,9 +94,5 @@ begin
     down_done_trigger=>down_done_trigger,
     start_down_cnt_trigger=>start_down_cnt_trigger, rst_down_cnt_trigger=>rst_down_cnt_trigger,
     down_done_left=>down_done_left, start_down_cnt_left=>start_down_cnt_left, rst_down_cnt_left=>rst_down_cnt_left);
-
-
-
-
 
 end arch;
