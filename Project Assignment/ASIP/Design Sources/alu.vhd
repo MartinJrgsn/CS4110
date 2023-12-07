@@ -10,7 +10,9 @@
 -- Description: Arithmetic Logic Unit (ALU)
 -- desribes actions based on the alu_ctr_in OPCODEs
 --
--- Revision: 0.02 - Added data passthrough for SCD (Set Car Direction) and SSEG (Set Seven-segment Display)
+-- Revision: 0.02
+-- Revision 0.02 - Added data passthrough for SCD (Set Car Direction) and
+--                 SSEG (Set Seven-segment Display)
 -- Revision 0.01 - Listing 4.5 modified
 --
 ----------------------------------------------------------------------------------
