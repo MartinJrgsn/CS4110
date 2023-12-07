@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Nikolai Eidheim
--- 
+--
 -- Create Date: 11.2023
 -- Module Name: downcounter for right
 -- Project Name: Hardware only solution
