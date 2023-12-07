@@ -84,5 +84,4 @@ begin
     -- count completion signal
     count_done_internal <= '1' when r_reg = 0 else '0';
     count_done <= (others => '1') when r_reg = 0 else (others => '0');
-
 end arch;
