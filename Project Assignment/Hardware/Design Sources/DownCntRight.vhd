@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Engineer / candidate nr: Nikolai Eidheim - 8507
+-- Engineer: Nikolai Eidheim
 -- 
 -- Create Date: 11.2023
 -- Module Name: downcounter for right
