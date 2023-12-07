@@ -9,7 +9,8 @@
 -- Description: Module for reading sensor data from HC-SR04
 -- Ultrasonic Distance Sensor
 --
--- Revision: 0.02
+-- Revision: 0.03
+-- Revision 0.03 - Linting and removed signal
 -- Revision 0.02 - 38ms period mod n up counter
 -- Revision 0.01 - File Created
 --
