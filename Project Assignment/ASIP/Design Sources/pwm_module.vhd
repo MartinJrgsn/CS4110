@@ -38,7 +38,7 @@ entity pwm_module is
 end pwm_module;
 
 architecture arch of pwm_module is
-    signal counter, echo_start, echo_end : INTEGER range 0 to PWM_PERIOD := 0;
+    signal counter, echo_start : INTEGER range 0 to PWM_PERIOD := 0;
     signal trigger_signal : STD_LOGIC := '0';
     signal measuring : BOOLEAN := FALSE;
     signal current_threshold : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
@@ -77,7 +77,6 @@ begin
                 echo_start <= counter;
                 measuring <= TRUE;
             elsif echo = '0' and measuring then
-                echo_end <= counter;
                 -- Calculate distance for speed of sound in air ~ 343 m/s)
                 measured_distance <= (counter - echo_start) / 5831;
                 measuring <= FALSE;
