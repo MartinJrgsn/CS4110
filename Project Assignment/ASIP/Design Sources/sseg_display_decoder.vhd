@@ -24,10 +24,10 @@ use ieee.std_logic_unsigned.all;
 
 entity sseg_display_decoder is
     generic(
-      DRDATA_WIDTH: integer:=8;
-      SSEG_WIDTH: integer:=7;
-      SSEG_AN_WIDTH: integer:=4
-   );
+        DRDATA_WIDTH: integer:=8;
+        SSEG_WIDTH: integer:=7;
+        SSEG_AN_WIDTH: integer:=4
+    );
     Port (
         clk : in STD_LOGIC;
         din : in STD_LOGIC_VECTOR (DRDATA_WIDTH-1 downto 0);

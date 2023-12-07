@@ -24,30 +24,32 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity ASIP is
-   generic(
-      PCDATA_WIDTH: integer:=8;
-      IMADDR_WIDTH: integer:=5;
-      IMDATA_WIDTH: integer:=24;
-      DRADDR_WIDTH: integer:=3;
-      DRDATA_WIDTH: integer:=8;
-      DMADDR_WIDTH: integer:=8;
-      DMDATA_WIDTH: integer:=8;
-      OPCODE_WIDTH: integer:=7;
-      SSEG_AN_WIDTH: integer:=4;
-      SSEG_WIDTH: integer:=7
-   );
-   port(clk, rst: in std_logic;
-   echo: in std_logic; --
-   trig: out std_logic; --
-   sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); --
-   btnC: in std_logic; --
-   ENB_1, IN3_1, IN4_1: out std_logic;     -- ENB_1, IN3_1, IN4_1
-   ENA_2, IN1_2, IN2_2: out std_logic;     -- ENA_2, IN1_1, IN2_1
-   ENA_1, IN1_1, IN2_1: out std_logic;     -- ENA_1, IN1_1, IN2_1
-   ENB_2, IN3_2, IN4_2: out std_logic;     -- ENB_2, IN3_2, IN4_2
-   led: out std_logic_vector(11 downto 0);
-   sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0); --
-   an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0)); --
+    generic(
+        PCDATA_WIDTH: integer:=8;
+        IMADDR_WIDTH: integer:=5;
+        IMDATA_WIDTH: integer:=24;
+        DRADDR_WIDTH: integer:=3;
+        DRDATA_WIDTH: integer:=8;
+        DMADDR_WIDTH: integer:=8;
+        DMDATA_WIDTH: integer:=8;
+        OPCODE_WIDTH: integer:=7;
+        SSEG_AN_WIDTH: integer:=4;
+        SSEG_WIDTH: integer:=7
+    );
+    port(
+        clk, rst: in std_logic;
+        echo: in std_logic; --
+        trig: out std_logic; --
+        sw: in std_logic_vector(DRDATA_WIDTH-1 downto 0); --
+        btnC: in std_logic; --
+        ENB_1, IN3_1, IN4_1: out std_logic;
+        ENA_2, IN1_2, IN2_2: out std_logic;
+        ENA_1, IN1_1, IN2_1: out std_logic;
+        ENB_2, IN3_2, IN4_2: out std_logic;
+        led: out std_logic_vector(11 downto 0);
+        sseg_out: out std_logic_vector(SSEG_WIDTH-1 downto 0);
+        an_out: out std_logic_vector(SSEG_AN_WIDTH-1 downto 0)
+    );
 
 end ASIP;
 

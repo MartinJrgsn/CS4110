@@ -22,14 +22,16 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity alu is
-   generic(
-      OPCODE_WIDTH: integer:=7;
-      ALUDATA_WIDTH: integer:=8
-   );
-   port(alu_din_hi, alu_din_lo: in std_logic_vector(ALUDATA_WIDTH-1 downto 0);
+    generic(
+        OPCODE_WIDTH: integer:=7;
+        ALUDATA_WIDTH: integer:=8
+    );
+    port(
+        alu_din_hi, alu_din_lo: in std_logic_vector(ALUDATA_WIDTH-1 downto 0);
         alu_ctr_in: in std_logic_vector(OPCODE_WIDTH-1 downto 0);
         alu_dout: out std_logic_vector(ALUDATA_WIDTH-1 downto 0);
-        alu_zero: out std_logic);
+        alu_zero: out std_logic
+    );
 end alu;
 
 architecture arch of alu is
