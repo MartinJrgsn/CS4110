@@ -57,6 +57,8 @@ begin
         if rst = '1' then
             r_reg <= (others => '0');  -- Reset to 0
             just_loaded <= '0';
+            percentage <= (others => '0');
+            seconds <= (others => '0');
         elsif rising_edge(clk) then
             if dc_load = '1' then
                 -- Extract percentage and seconds from input

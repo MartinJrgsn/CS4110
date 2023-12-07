@@ -48,7 +48,9 @@ begin
     process(clk, rst)
     begin
         if rst = '1' then
+            above_limit <= (others => '0');
             counter <= 0;
+            echo_start <= 0;
             trigger_signal <= '0';
             measuring <= FALSE;
             distance <= (others => '0');
