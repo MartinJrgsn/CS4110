@@ -2,7 +2,7 @@
 -- Engineer: Nikolai Eidheim
 --
 -- Create Date: 11.2023
--- Module Name: downcounter for right
+-- Module Name: downcounter for left
 -- Project Name: Hardware only solution
 -- Additional Comments:
         --  based on cnt8bits
@@ -15,13 +15,13 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity down_counter_right is
+entity down_counter_left is
     Port ( clk, rst, up: in std_logic;
            dout: out std_logic
      );
-end down_counter_right;
+end down_counter_left;
 
-architecture arch of down_counter_right is
+architecture arch of down_counter_left is
 signal ffin, ffout: std_logic_vector (31 downto 0);
 
 begin

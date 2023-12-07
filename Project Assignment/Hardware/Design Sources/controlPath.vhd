@@ -15,10 +15,10 @@ use ieee.numeric_std.all;
 entity controlPath is
    port ( clk, rst: in std_logic;
           limit_reached, echo_done, echo_active,  down_done_trigger: in std_logic;
-           down_done_echo, down_done_reverse, down_done_right: in std_logic;
+           down_done_echo, down_done_reverse, down_done_left: in std_logic;
           clear_cnt, start_cnt, trigger_ctr, rst_down_cnt_echo, clear_echo_done: out std_logic;
           start_down_cnt_echo, rst_down_cnt_reverse, start_down_cnt_reverse: out std_logic;
-          rst_down_cnt_right, start_down_cnt_right: out std_logic;
+          rst_down_cnt_left, start_down_cnt_left: out std_logic;
           start_down_cnt_trigger, rst_down_cnt_trigger: out std_logic;
           cnt_limit: out std_logic_vector(31 downto 0);
           current_state: out std_logic_vector(2 downto 0)
@@ -51,8 +51,8 @@ begin
       start_down_cnt_echo <= '0';
       rst_down_cnt_echo  <= '1';
 
-      start_down_cnt_right <= '0';
-      rst_down_cnt_right  <= '1';
+      start_down_cnt_left <= '0';
+      rst_down_cnt_left  <= '1';
 
       start_down_cnt_reverse <= '0';
       rst_down_cnt_reverse  <= '1';
@@ -98,9 +98,9 @@ begin
       -- while in s3, set driving state to 011, turn left
       -- same as s2
         current_state <= "011";
-          start_down_cnt_right <= '1';
-          rst_down_cnt_right  <= '0';
-        if down_done_right = '1' then
+          start_down_cnt_left <= '1';
+          rst_down_cnt_left  <= '0';
+        if down_done_left = '1' then
             st_next <= S0; -- go back to start when done
         else
             st_next <= S3;
