@@ -53,29 +53,19 @@ end ASIP;
 
 architecture arch of ASIP is
     signal btn_mux_ctr: std_logic;
-    signal write_limit: std_logic;
-    signal above_limit: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal dl_mux_ctr: std_logic;
     signal pc_mux_ctr: std_logic;
     signal dreg_mux_ctr: std_logic;
-    signal dr_wr_ctr: std_logic; -- dreg_write
     signal cnt_mux_ctr: std_logic;
     signal alu_mux_ctr: std_logic;
-    signal dc_load: std_logic;
-    signal count_done: std_logic_vector(DRDATA_WIDTH-1 downto 0);
-    signal alu_ctr: std_logic_vector(OPCODE_WIDTH-1 downto 0);
-    signal alu_zero: std_logic;
     signal alu_dmem_mux_ctr: std_logic;
-    signal dm_wr_ctr: std_logic; -- dmem_write
+    signal write_limit: std_logic;
+    signal dr_wr_ctr: std_logic;
+    signal dc_load: std_logic;
+    signal alu_zero: std_logic;
+    signal dm_wr_ctr: std_logic;
     signal sseg_wr: std_logic;
     signal m_dir_wr: std_logic;
-    signal pc_mux_out, pc_out: std_logic_vector(PCDATA_WIDTH-1 downto 0);
-    signal opcd_out: std_logic_vector(IMDATA_WIDTH-1 downto 0);
-    signal dr1_dout, dr2_dout: std_logic_vector(DRDATA_WIDTH-1 downto 0);
-    signal alu_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
-    signal alu_dout: std_logic_vector(DRDATA_WIDTH-1 downto 0);
-    signal dm_dout: std_logic_vector(DMDATA_WIDTH-1 downto 0);
-    signal dreg_mux_out: std_logic_vector(DMDATA_WIDTH-1 downto 0);
     signal th_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal dl_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal cnt_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
@@ -83,14 +73,26 @@ architecture arch of ASIP is
     signal distance: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal sseg_dd_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
     signal m_dir_reg_out: std_logic_vector(DRDATA_WIDTH-1 downto 0); --
-
-begin
-    -- instantiate program counter
-    pc: entity work.pc(arch)
-    port map(clk=>clk,
-             rst=>rst,
-             reg_d=>pc_mux_out, -- data in
-             reg_q=>pc_out);    -- data out
+    signal above_limit: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal count_done: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal dr1_dout: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal dr2_dout: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal alu_mux_out: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal alu_dout: std_logic_vector(DRDATA_WIDTH-1 downto 0);
+    signal alu_ctr: std_logic_vector(OPCODE_WIDTH-1 downto 0);
+    signal pc_mux_out: std_logic_vector(PCDATA_WIDTH-1 downto 0);
+    signal pc_out: std_logic_vector(PCDATA_WIDTH-1 downto 0);
+    signal opcd_out: std_logic_vector(IMDATA_WIDTH-1 downto 0);
+    signal dm_dout: std_logic_vector(DMDATA_WIDTH-1 downto 0);
+    signal dreg_mux_out: std_logic_vector(DMDATA_WIDTH-1 downto 0);
+    
+    begin
+        -- instantiate program counter
+        pc: entity work.pc(arch)
+        port map(clk=>clk,
+        rst=>rst,
+        reg_d=>pc_mux_out, -- data in
+        reg_q=>pc_out);    -- data out
 
     -- instantiate instruction memory
     imem: entity work.imem(arch)
