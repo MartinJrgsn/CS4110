@@ -1,27 +1,25 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Martin Jørgensen
--- 
+--
 -- Create Date: 27.11.2023 10:00:43
--- Design Name: 
+-- Design Name: pwm_module
 -- Module Name: pwm_module - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
+-- Project Name: car_movement_asip
+-- Target Devices: Basys 3
+-- Description: Module for reading sensor data from HC-SR04
+-- Ultrasonic Distance Sensor
+--
+-- Revision: 0.03
+-- Revision 0.03 - Linting and removed signal
+-- Revision 0.02 - 38ms period mod n up counter
 -- Revision 0.01 - File Created
--- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity pwm_module is
     generic(
@@ -41,7 +39,7 @@ entity pwm_module is
 end pwm_module;
 
 architecture arch of pwm_module is
-    signal counter, echo_start, echo_end : INTEGER range 0 to PWM_PERIOD := 0;
+    signal counter, echo_start : INTEGER range 0 to PWM_PERIOD := 0;
     signal trigger_signal : STD_LOGIC := '0';
     signal measuring : BOOLEAN := FALSE;
     signal current_threshold : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');
@@ -51,7 +49,9 @@ begin
     process(clk, rst)
     begin
         if rst = '1' then
+            above_limit <= (others => '0');
             counter <= 0;
+            echo_start <= 0;
             trigger_signal <= '0';
             measuring <= FALSE;
             distance <= (others => '0');
@@ -80,7 +80,6 @@ begin
                 echo_start <= counter;
                 measuring <= TRUE;
             elsif echo = '0' and measuring then
-                echo_end <= counter;
                 -- Calculate distance for speed of sound in air ~ 343 m/s)
                 measured_distance <= (counter - echo_start) / 5831;
                 measuring <= FALSE;

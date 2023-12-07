@@ -1,27 +1,27 @@
 ----------------------------------------------------------------------------------
--- Engineer: Martin Jørgensen
--- 
+-- Engineer: Martin JÃ¸rgensen
+--
 -- Create Date: 27.11.2023 10:00:43
--- Design Name: 
+-- Design Name: pwm_module
 -- Module Name: pwm_module - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
+-- Project Name: Hardware only solution
+-- Target Devices: Basys 3
+-- Description: Module for reading sensor data from HC-SR04
+-- Ultrasonic Distance Sensor
+--
+-- Revision: 0.03
+-- Revision 0.03 - Linting and removed signal
+-- Revision 0.02 - 38ms period mod n up counter
 -- Revision 0.01 - File Created
--- Additional Comments:
--- 
+--
+-- Modification: - Change to 9 bit data width
+--
 ----------------------------------------------------------------------------------
 
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 entity pwm_module is
     generic(
@@ -75,7 +75,6 @@ begin
                 echo_start <= counter;
                 measuring <= TRUE;
             elsif echo = '0' and measuring then
-                echo_end <= counter;
                 -- Calculate distance for speed of sound in air ~ 343 m/s)
                 measured_distance <= (counter - echo_start) / 5831;
                 measuring <= FALSE;

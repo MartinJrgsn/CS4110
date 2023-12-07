@@ -1,4 +1,5 @@
 -- Listing 4.5 modified
+
 library ieee;
 use ieee.std_logic_1164.all;
 
@@ -24,5 +25,5 @@ begin
 			end if;
       end if;
    end process;
-   
+
 end arch;

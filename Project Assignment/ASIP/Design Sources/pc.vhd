@@ -24,5 +24,5 @@ begin
 		 reg_q <= reg_d;
       end if;
    end process;
-   
+
 end arch;
