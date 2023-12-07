@@ -14,16 +14,13 @@ use ieee.numeric_std.all;
 
 entity controlPath is
    port ( clk, rst: in std_logic;
-          limit_reached, echo_done, echo_active,  down_done_trigger, 
+          limit_reached, echo_done, echo_active,  down_done_trigger: in std_logic;
            down_done_echo, down_done_reverse, down_done_right: in std_logic;
-           
-          clear_cnt, start_cnt, trigger_ctr, rst_down_cnt_echo, clear_echo_done, 
-          start_down_cnt_echo, rst_down_cnt_reverse, start_down_cnt_reverse,
-          rst_down_cnt_right, start_down_cnt_right,
+          clear_cnt, start_cnt, trigger_ctr, rst_down_cnt_echo, clear_echo_done: out std_logic;
+          start_down_cnt_echo, rst_down_cnt_reverse, start_down_cnt_reverse: out std_logic;
+          rst_down_cnt_right, start_down_cnt_right: out std_logic;
           start_down_cnt_trigger, rst_down_cnt_trigger: out std_logic;
-          
           cnt_limit: out std_logic_vector(31 downto 0);
-          
           current_state: out std_logic_vector(2 downto 0)
 	    );
 end controlPath;
@@ -97,8 +94,6 @@ begin
            st_next <= S2;  
         end if;   
         
-
- 
       when S3 =>
       -- while in s3, set driving state to 011, turn left
       -- same as s2
@@ -108,13 +103,8 @@ begin
         if down_done_right = '1' then
             st_next <= S0; -- go back to start when done
         else
-            
-            st_next <= S3; 
-                     
+            st_next <= S3;           
         end if;
-        
     end case;
 end process;
-
-
 end arch;

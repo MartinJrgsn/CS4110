@@ -33,7 +33,6 @@ end driveSettings;
 architecture arch of driveSettings is
 
  -- stores 4 possible states of output signals that will controll the car
-
 begin
     process(state)
     begin
@@ -94,8 +93,7 @@ begin
                 out10 <= '0';
                 out11 <= '0';
                 out12 <= '0';
-                led <= (others => '0');
-                
+                led <= (others => '0');     
         end case;
     end process;
 end arch;

@@ -38,7 +38,7 @@ begin
         elsif input /= prev_input AND rising_edge(clk) then
             
             -- a shift register that holds the 26 last input values 
-            -- (does not save the values in a row that are equal)
+            -- (only saves values when they are diffrent than the last)
             sample(25) <= sample(24);
             sample(24) <= sample(23);
             sample(23) <= sample(22);
@@ -82,8 +82,6 @@ begin
             
             -- calculates result by dividing and thus finding the average.
             result <= std_logic_vector(to_unsigned(sum / 26, 9));
-            
             end if;
     end process;
-
 end arch;

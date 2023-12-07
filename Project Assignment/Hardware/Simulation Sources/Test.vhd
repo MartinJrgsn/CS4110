@@ -17,8 +17,6 @@ end test_tb;
 architecture arch of test_tb is
 constant clk_period : time := 10 ns;
 
-
-
 Component carController is
     port ( 
         clk, rst: in STD_LOGIC;
@@ -42,12 +40,11 @@ signal clk, rst: std_logic;
 signal pwm_in, pwm_out: std_logic;
 
 begin
-
-    uut: carController
+    uut: carController 
     Port Map(clk => clk, rst => rst, 
               pwm => pwm_in, pwm_trigger => pwm_out);
     
-    clk_process: process 
+    clk_process: process -- simulates a clock from the board
             begin
                clk <= '0';
                wait for clk_period/2;
@@ -55,7 +52,7 @@ begin
                wait for clk_period/2;
             end process; 
         
-     stim: process
+     stim: process -- the simulated inputs start to finish
         begin
         pwm_in <= '0';
         rst <= '1';
@@ -102,5 +99,4 @@ begin
 
         wait for 1000000ms; -- delay for the backward and turn left.
         end process;
-
 end arch;
