@@ -87,8 +87,8 @@ architecture arch of ASIP is
     signal dreg_mux_out: std_logic_vector(DMDATA_WIDTH-1 downto 0);
 
     begin
-        -- instantiate program counter
-        pc: entity work.pc(arch)
+    -- instantiate program counter
+    pc: entity work.pc(arch)
         port map(clk=>clk,
         rst=>rst,
         reg_d=>pc_mux_out, -- data in
