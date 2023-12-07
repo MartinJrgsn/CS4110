@@ -10,7 +10,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use IEEE.numeric_std.ALL;
+use ieee.numeric_std.all;
 
 entity controlPath is
    port ( clk, rst: in std_logic;
