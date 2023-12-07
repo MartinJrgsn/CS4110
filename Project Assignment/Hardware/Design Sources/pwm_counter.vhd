@@ -4,7 +4,7 @@
 -- Create Date: 27.11.2023 10:00:43
 -- Design Name: 
 -- Module Name: pwm_module - arch
--- Project Name: 
+-- Project Name: Hardware only solution
 -- Target Devices: 
 -- Tool Versions: 
 -- Description: 
@@ -75,7 +75,6 @@ begin
                 echo_start <= counter;
                 measuring <= TRUE;
             elsif echo = '0' and measuring then
-                echo_end <= counter;
                 -- Calculate distance for speed of sound in air ~ 343 m/s)
                 measured_distance <= (counter - echo_start) / 5831;
                 measuring <= FALSE;

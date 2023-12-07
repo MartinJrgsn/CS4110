@@ -1,5 +1,11 @@
 ----------------------------------------------------------------------------------
--- Top design module 
+-- Engineer / candidate nr: Nikolai Eidheim - 8507
+-- 
+-- Create Date: 11.2023
+-- Module Name: Top file
+-- Project Name: Hardware only solution
+-- Additional Comments:
+-- 
 ----------------------------------------------------------------------------------
 library IEEE; 
 use IEEE.STD_LOGIC_1164.ALL;
@@ -11,9 +17,9 @@ entity carController is
         );
     port ( 
         clk, rst: in STD_LOGIC;
-		pwm: in STD_LOGIC;
-        pwm_trigger:  out STD_LOGIC;
-           out1 : out STD_LOGIC;
+		pwm: in STD_LOGIC; -- echo input (from sensor) 
+        pwm_trigger:  out STD_LOGIC; -- trigger output (to sensor)
+           out1 : out STD_LOGIC; -- 12 outputs sent to the two motor drivers
            out2 : out STD_LOGIC;
            out3 : out STD_LOGIC;
            out4 : out STD_LOGIC;
@@ -25,11 +31,12 @@ entity carController is
            out10 : out STD_LOGIC;
            out11 : out STD_LOGIC;
            out12 : out STD_LOGIC;
-           led : out STD_LOGIC_VECTOR(11 downto 0);
-           sseg_out: out STD_LOGIC_VECTOR(6 downto 0);
-           an_out : out STD_LOGIC_VECTOR(3 downto 0));
+           led : out STD_LOGIC_VECTOR(11 downto 0); -- leds
+           sseg_out: out STD_LOGIC_VECTOR(6 downto 0); -- display value
+           an_out : out STD_LOGIC_VECTOR(3 downto 0)); -- display enabler
 end carController;
 
+-- signals for connecting the components
 architecture arch of carController is
     signal cnt_value, cnt_limit: std_logic_vector(31 downto 0);
     signal current_state: std_logic_vector(2 downto 0);
@@ -42,16 +49,10 @@ architecture arch of carController is
     signal sseg_reg_dout: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_result: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_input: std_logic_vector(DATA_WIDTH-1 downto 0);
-    -- top level output signals
-    --signal out1_top, out2_top,out3_top,out4_top,out5_top,out6_top,out7_top,out8_top,out9_top,
-    --out10_top,out11_top,out12_top: std_logic;
+
     
 ----------------------------------------------------------------------------------
 begin
-
--- module 1
-    --cnt32bits: entity work.cnt32bits(arch)
-      --  port map ( clk=>clk, rst=>clear_cnt, up=>start_cnt, dout=>cnt_value );
 
     pwm_module: entity work.pwm_module(arch)
         port map ( clk=>clk, rst=>rst, 
@@ -68,16 +69,6 @@ begin
     down_counter_right: entity work.down_counter_right(arch)
         port map ( clk=>clk, rst=>rst_down_cnt_right, up=>start_down_cnt_right, dout=>down_done_right );
 
---    down_counter_trigger: entity work.down_counter_trigger(arch)
---        port map ( clk=>clk, rst=>rst_down_cnt_trigger, up=>start_down_cnt_trigger, dout=>down_done_trigger );
-
-    edgeDetector: entity work.edgeDetector(arch)
-        port map (  clk=>clk, echo_pwm=>pwm, echo_done=>echo_done, 
-        echo_active=>echo_active, clear_done => clear_echo_done);
-
--- module 2 
-    --comperator: entity work.comperator(arch)
-     --   port map (clk=>clk, first_input=>cnt_value, second_input=>cnt_limit, result=>limit_reached);
         
     driveSettings: entity work.driveSettings(arch)
         port map (clk=>clk, state=>current_state, out1=>out1, 
