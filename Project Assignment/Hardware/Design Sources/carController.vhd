@@ -46,17 +46,18 @@ architecture arch of carController is
     down_done_left, start_down_cnt_left, rst_down_cnt_left: std_logic;
     signal distance: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal load_sseg: std_logic := '1';
+    signal new_distance_value: std_logic;
     signal sseg_reg_dout: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_result: std_logic_vector(DATA_WIDTH-1 downto 0);
     signal fir_input: std_logic_vector(DATA_WIDTH-1 downto 0);
 ----------------------------------------------------------------------------------
 begin
     pwm_module: entity work.pwm_module(arch)
-        port map ( clk=>clk, rst=>rst,
+        port map ( clk=>clk, rst=>rst, new_distance_value=>new_distance_value,
         echo=>pwm, trig=>pwm_trigger, dout=>down_done_echo, distance=>distance );
 
     fir_filter: entity work.fir_filter(arch)
-        port map (  rst=>rst, clk=>clk,
+        port map (  rst=>rst, clk=>clk, new_distance_value=>new_distance_value,
         result=>fir_result, input=>distance );
 
     down_counter_reverse: entity work.down_counter_reverse(arch)
@@ -71,16 +72,9 @@ begin
         out6=>out6,out7=>out7,out8=>out8,out9=>out9,
         out10=>out10,out11=>out11,out12=>out12, led=>led);
 
-    sseg_reg: entity work.reg(arch)
-        port map(clk=>clk,
-            rst=>rst,
-            reg_ld=>load_sseg,
-            reg_d=>fir_result,
-            reg_q=>sseg_reg_dout);
-
     sseg_decoder: entity work.sseg_display_decoder(arch)
         port map(clk=>clk,
-            din=>sseg_reg_dout,
+            din=>fir_result,
             sseg=>sseg_out,
             an=>an_out);
 

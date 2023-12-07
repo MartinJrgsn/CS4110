@@ -16,8 +16,10 @@ entity fir_filter is
     Port (
         clk : in STD_LOGIC;
         rst : in STD_LOGIC;
+        new_distance_value : in STD_LOGIC;
         input : in STD_LOGIC_VECTOR(8 downto 0);
         result : out STD_LOGIC_VECTOR(8 downto 0)
+
     );
 end fir_filter;
 
@@ -35,7 +37,7 @@ begin
         if rst = '1' then -- resets component
             sample <= (others => 0);
             sum <= 0;
-        elsif input /= prev_input AND rising_edge(clk) then
+        elsif new_distance_value = '1' AND rising_edge(clk) then
 
             -- a shift register that holds the 26 last input values
             -- (only saves values when they are diffrent than the last)

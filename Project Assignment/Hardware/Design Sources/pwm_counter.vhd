@@ -34,7 +34,8 @@ entity pwm_module is
         trig : out STD_LOGIC; -- TRIG pin for HC-SR04
         echo : in STD_LOGIC; -- ECHO pin from HC-SR04
         dout : out STD_LOGIC; -- Distance above limit
-        distance : buffer STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0) -- Distance measured
+        distance : buffer STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0); -- Distance measured
+        new_distance_value: out STD_LOGIC
     );
 end pwm_module;
 
@@ -55,7 +56,7 @@ begin
             distance <= (others => '0');
             measured_distance <= 0;
         elsif rising_edge(clk) then
-
+            new_distance_value <= '0';
 
             if counter < PWM_PERIOD then
                 counter <= counter + 1;
@@ -84,6 +85,7 @@ begin
                     distance <= (others => '0'); -- Error value
                 else
                     distance <= std_logic_vector(to_unsigned(measured_distance, 9));
+                    new_distance_value <= '1';
                 end if;
             end if;
 
