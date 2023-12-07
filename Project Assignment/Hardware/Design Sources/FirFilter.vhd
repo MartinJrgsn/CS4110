@@ -1,11 +1,11 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Nikolai Eidheim
--- 
+--
 -- Create Date: 11.2023
 -- Module Name: fir filter
 -- Project Name: Hardware only solution
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -16,10 +16,10 @@ entity fir_filter is
     Port (
         clk : in STD_LOGIC;
         rst : in STD_LOGIC;
-        input : in STD_LOGIC_VECTOR(8 downto 0); 
-        result : out STD_LOGIC_VECTOR(8 downto 0) 
+        input : in STD_LOGIC_VECTOR(8 downto 0);
+        result : out STD_LOGIC_VECTOR(8 downto 0)
     );
-end fir_filter;    
+end fir_filter;
 
 architecture arch of fir_filter is
     -- array to store previous values
@@ -36,16 +36,16 @@ begin
             sample <= (others => 0);
             sum <= 0;
         elsif input /= prev_input AND rising_edge(clk) then
-            
-            -- a shift register that holds the 26 last input values 
-            -- (does not save the values in a row that are equal)
+
+            -- a shift register that holds the 26 last input values
+            -- (only saves values when they are diffrent than the last)
             sample(25) <= sample(24);
             sample(24) <= sample(23);
             sample(23) <= sample(22);
             sample(22) <= sample(21);
             sample(21) <= sample(20);
             sample(20) <= sample(19);
-            sample(19) <= sample(18);            
+            sample(19) <= sample(18);
             sample(18) <= sample(17);
             sample(17) <= sample(16);
             sample(16) <= sample(15);
@@ -66,24 +66,22 @@ begin
             sample(1) <= sample(0);
             sample(0) <= to_integer(unsigned(input));
             end if;
-            
+
             if rising_edge(clk) then -- store current input
             prev_input <= input;
-            
+
             -- sum all values
-            sum <= sample(0) + sample(1) + sample(2) + 
-                   sample(3) + sample(4) + sample(5) + 
-                   sample(6) + sample(7) + sample(8) + 
-                   sample(9) + sample(10) + sample(11) + sample(12) + 
-                   sample(13) + sample(14) + sample(15) + 
-                   sample(16) + sample(17) + sample(18) + 
-                   sample(19) + sample(20) + sample(21) + sample(22) + 
+            sum <= sample(0) + sample(1) + sample(2) +
+                   sample(3) + sample(4) + sample(5) +
+                   sample(6) + sample(7) + sample(8) +
+                   sample(9) + sample(10) + sample(11) + sample(12) +
+                   sample(13) + sample(14) + sample(15) +
+                   sample(16) + sample(17) + sample(18) +
+                   sample(19) + sample(20) + sample(21) + sample(22) +
                    sample(23) + sample(24) + sample(25);
-            
+
             -- calculates result by dividing and thus finding the average.
             result <= std_logic_vector(to_unsigned(sum / 26, 9));
-            
             end if;
     end process;
-
 end arch;

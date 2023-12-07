@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Nikolai Eidheim
--- 
+--
 -- Create Date: 11.2023
 -- Module Name: downcounter for right
 -- Project Name: Hardware only solution
@@ -42,9 +42,5 @@ ffin <= std_logic_vector(unsigned(ffout) - 1) when up='1' AND unsigned(ffout) > 
         ffout;
 -- 1 if counter reaches 0
 dout <= '1' when (unsigned(ffout) = "00000000000000000000000000000000") else '0';
-
-
-
-
 
 end arch;

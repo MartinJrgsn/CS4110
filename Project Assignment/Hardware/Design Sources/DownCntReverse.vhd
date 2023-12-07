@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Engineer: Nikolai Eidheim
--- 
+-- Engineer / candidate nr: Nikolai Eidheim - 8507
+--
 -- Create Date: 11.2023
 -- Module Name: downcounter for reverse
 -- Project Name: Hardware only solution

@@ -1,11 +1,11 @@
 ----------------------------------------------------------------------------------
 -- Engineer: Nikolai Eidheim
--- 
+--
 -- Create Date: 11.2023
 -- Module Name: driving modes for motor drivers
 -- Project Name: Hardware only solution
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
 library ieee;
@@ -14,7 +14,7 @@ use ieee.std_logic_1164.all;
 entity driveSettings is
     Port ( clk : in STD_LOGIC;
     -- the current drive state (forward, backwards...)
-           state : in STD_LOGIC_vector (2 downto 0); 
+           state : in STD_LOGIC_vector (2 downto 0);
            out1 : out STD_LOGIC; -- motor driver signals
            out2 : out STD_LOGIC;
            out3 : out STD_LOGIC;
@@ -33,7 +33,6 @@ end driveSettings;
 architecture arch of driveSettings is
 
  -- stores 4 possible states of output signals that will controll the car
-
 begin
     process(state)
     begin
@@ -95,7 +94,6 @@ begin
                 out11 <= '0';
                 out12 <= '0';
                 led <= (others => '0');
-                
         end case;
     end process;
 end arch;
