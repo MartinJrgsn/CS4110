@@ -39,7 +39,6 @@ begin
             
             -- a shift register that holds the 26 last input values 
             -- (does not save the values in a row that are equal)
-            
             sample(25) <= sample(24);
             sample(24) <= sample(23);
             sample(23) <= sample(22);
