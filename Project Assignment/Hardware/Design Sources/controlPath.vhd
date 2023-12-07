@@ -48,9 +48,6 @@ end process;
 
 process (clk)
 begin
-        --rst_down_cnt <= '0';
-        --clear_cnt <= '0';
-        --clear_echo_done <= '0';
    
     case st_now is
       when S0 => -- clear/reset values and components 
