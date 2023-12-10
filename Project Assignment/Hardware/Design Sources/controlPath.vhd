@@ -15,7 +15,7 @@ use ieee.numeric_std.all;
 entity controlPath is
    port ( clk, rst: in std_logic;
           limit_reached, echo_done, echo_active,  down_done_trigger: in std_logic;
-           down_done_echo, down_done_reverse, down_done_left: in std_logic;
+           under_treshold, down_done_reverse, down_done_left: in std_logic;
           clear_cnt, start_cnt, trigger_ctr, rst_down_cnt_echo, clear_echo_done: out std_logic;
           start_down_cnt_echo, rst_down_cnt_reverse, start_down_cnt_reverse: out std_logic;
           rst_down_cnt_left, start_down_cnt_left: out std_logic;
@@ -48,8 +48,8 @@ begin
 
     case st_now is
       when S0 => -- clear/reset values and components
-      start_down_cnt_echo <= '0';
-      rst_down_cnt_echo  <= '1';
+      --start_down_cnt_echo <= '0';
+      --rst_down_cnt_echo  <= '1';
 
       start_down_cnt_left <= '0';
       rst_down_cnt_left  <= '1';
@@ -57,8 +57,8 @@ begin
       start_down_cnt_reverse <= '0';
       rst_down_cnt_reverse  <= '1';
 
-      start_down_cnt_trigger <= '0';
-      rst_down_cnt_trigger  <= '1';
+      --start_down_cnt_trigger <= '0';
+      --rst_down_cnt_trigger  <= '1';
 
       -- while in s0, set driving state to 001, forward
       current_state <= "001";
@@ -71,7 +71,7 @@ begin
       -- set to s2, else continue in s1
       -- while in s1, set driving state to 001, forward
         current_state <= "001";
-        if (down_done_echo = '1') then
+        if (under_treshold = '1') then
             st_next <= S2;
         else
             st_next <= S1;

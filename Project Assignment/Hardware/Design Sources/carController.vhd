@@ -41,7 +41,7 @@ architecture arch of carController is
     signal cnt_value, cnt_limit: std_logic_vector(31 downto 0);
     signal current_state: std_logic_vector(2 downto 0);
     signal clear_echo_done, PWM_in, echo_done, echo_active, clear_cnt, start_cnt: std_logic;
-    signal limit_reached, PWM_out, down_done_echo, start_down_cnt_echo, rst_down_cnt_echo,
+    signal limit_reached, PWM_out, under_treshold, start_down_cnt_echo, rst_down_cnt_echo,
     down_done_reverse, start_down_cnt_reverse, rst_down_cnt_reverse, down_done_trigger, start_down_cnt_trigger, rst_down_cnt_trigger,
     down_done_left, start_down_cnt_left, rst_down_cnt_left: std_logic;
     signal distance: std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -54,7 +54,7 @@ architecture arch of carController is
 begin
     pwm_module: entity work.pwm_module(arch)
         port map ( clk=>clk, rst=>rst, new_distance_value=>new_distance_value,
-        echo=>pwm, trig=>pwm_trigger, dout=>down_done_echo, distance=>distance );
+        echo=>pwm, trig=>pwm_trigger, dout=>under_treshold, distance=>distance );
 
     fir_filter: entity work.fir_filter(arch)
         port map (  rst=>rst, clk=>clk, new_distance_value=>new_distance_value,
@@ -83,7 +83,7 @@ begin
         echo_done=>echo_done, echo_active=>echo_active,
         clear_cnt=>clear_cnt, start_cnt=>start_cnt,
         cnt_limit=>cnt_limit, current_state=>current_state, clear_echo_done => clear_echo_done,
-        down_done_echo=>down_done_echo, start_down_cnt_echo=>start_down_cnt_echo, rst_down_cnt_echo=>rst_down_cnt_echo,
+        under_treshold=>under_treshold, start_down_cnt_echo=>start_down_cnt_echo, rst_down_cnt_echo=>rst_down_cnt_echo,
     down_done_reverse=>down_done_reverse, start_down_cnt_reverse=>start_down_cnt_reverse, rst_down_cnt_reverse=>rst_down_cnt_reverse,
     down_done_trigger=>down_done_trigger,
     start_down_cnt_trigger=>start_down_cnt_trigger, rst_down_cnt_trigger=>rst_down_cnt_trigger,
