@@ -40,7 +40,7 @@ architecture arch of timer_module is
     constant max_percentage: natural := 31;     -- Maximum percentage value (5-bit max)
 
     -- Signals
-    signal r_reg: unsigned(29 downto 0) := (others => '0');  -- Timer count (30-bit for up to 1,073,741,823)
+    signal counter_reg: unsigned(29 downto 0) := (others => '0');  -- Timer count (30-bit for up to 1,073,741,823)
     signal percentage: unsigned(4 downto 0);     -- 5-bit percentage
     signal seconds: unsigned(2 downto 0);        -- 3-bit seconds
     signal dc_en: std_logic;                     -- Internal enable signal
@@ -55,7 +55,7 @@ begin
     process(clk, rst)
     begin
         if rst = '1' then
-            r_reg <= (others => '0');  -- Reset to 0
+            counter_reg <= (others => '0');  -- Reset to 0
             just_loaded <= '0';
             percentage <= (others => '0');
             seconds <= (others => '0');
@@ -65,16 +65,16 @@ begin
                 percentage <= unsigned(dr1_din(7 downto 3));
                 seconds <= unsigned(dr1_din(2 downto 0));
 
-                -- Directly update r_reg with the calculated timer value
+                -- Directly update counter_reg with the calculated timer value
                 just_loaded <= '1';  -- Set just_loaded when dr1_din is loaded
             elsif just_loaded = '1' then
                  just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
-                 r_reg <= resize(resize(seconds, r_reg'length) * to_unsigned(clock_rate, r_reg'length) * resize(percentage, r_reg'length) / to_unsigned(max_percentage, r_reg'length), r_reg'length);
+                 counter_reg <= resize(resize(seconds, counter_reg'length) * to_unsigned(clock_rate, counter_reg'length) * resize(percentage, counter_reg'length) / to_unsigned(max_percentage, counter_reg'length), counter_reg'length);
             else
-                if dc_en = '1' and r_reg /= 0 then
-                    r_reg <= r_reg -1;
+                if dc_en = '1' and counter_reg /= 0 then
+                    counter_reg <= counter_reg -1;
                 else
-                    r_reg <= r_reg;
+                    counter_reg <= counter_reg;
                 end if;
                 just_loaded <= '0';  -- Reset just_loaded on the next clock cycle
             end if;
@@ -82,6 +82,6 @@ begin
     end process;
 
     -- count completion signal
-    count_done_internal <= '1' when r_reg = 0 else '0';
-    count_done <= (others => '1') when r_reg = 0 else (others => '0');
+    count_done_internal <= '1' when counter_reg = 0 else '0';
+    count_done <= (others => '1') when counter_reg = 0 else (others => '0');
 end arch;
